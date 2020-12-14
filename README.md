@@ -16,7 +16,7 @@ structure that is similar to a more traditional relational database.
 You can install the released version of `anrlab` from [Github](https://github.com/tsostarics/anrlab) with:
 
 ``` r
-devtools::install_github("https://github.com/tsostarics/anrlab")
+devtools::install_github("tsostarics/anrlab")
 ```
 
 
