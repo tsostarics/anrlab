@@ -1,0 +1,38 @@
+#' Pivot instrument
+#'
+#' Helper for trim_instrument, handles the actual pivot across particular
+#' columns. NOTE: The instrument_regex parameter is what our lab uses across
+#' most instruments. If this needs to be changed later or generalizable for
+#' other labs, then it's there. For now things work for us just fine.
+#'
+#' @param instrument One instrument's data
+#' @param instrument_prefix Instrument prefix
+#' @param instrument_regex The regex associated with the metadata in the field
+#' name
+#' @param output_names Output names for the capture groups of the regex
+#' @param ... Other options for pivot_longer()
+#'
+#' @return
+#'
+#' @examples
+.pivot_instrument <- function(instrument,
+                             instrument_prefix,
+                             instrument_regex = '_(.+)_(.+)_(.+)$',
+                             output_names = c("subtest","number",".value"),
+                             ...){
+
+  # Get the columns that need to be pivoted (usually individual items)
+  inst_pattern <- paste0(instrument_prefix, instrument_regex)
+  pivot_cols <- grep(inst_pattern,colnames(instrument))
+  instrument <- instrument %>%
+    pivot_longer(cols=all_of(pivot_cols),
+                 names_to = output_names,
+                 names_pattern = inst_pattern,
+                 ...)
+
+  # Set an attribute with the prefix so that we can reference it later
+  # when we set the name of each instrument in the list
+  attr(instrument, 'redcap_instrument') <- instrument_prefix
+  instrument
+}
+
