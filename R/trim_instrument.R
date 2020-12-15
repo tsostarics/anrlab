@@ -13,9 +13,9 @@
 #' @return
 #' @examples
 .trim_instrument <- function(inst,
-                            lookup,
-                            record_id_col='demo_record_id',
-                            verbose = T){
+                             lookup,
+                             record_id_col='demo_record_id',
+                             verbose = T){
   # print(inst)
   # Get the name and prefix of the instrument
   inst_name <- inst[[1L, 'redcap_repeat_instrument']]

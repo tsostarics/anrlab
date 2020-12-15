@@ -15,9 +15,9 @@ extract_completes <- function(report_data, record_id_col='demo_record_id'){
   complete_regex <- paste0(record_id_col, "|(_instance|_complete$)")
   complete_vars <- report_data[grep(complete_regex, colnames(report_data))]
 
-  dplyr::filter(pivot_longer(complete_vars,
-                             cols = contains('_complete'),
-                             names_to = 'instrument_complete'),
+  dplyr::filter(tidyr::pivot_longer(complete_vars,
+                                    cols = contains('_complete'),
+                                    names_to = 'instrument_complete'),
                 !is.na(value))
 }
 
@@ -37,7 +37,6 @@ extract_completes <- function(report_data, record_id_col='demo_record_id'){
 #'
 #' @return
 #' @export
-#' @importFrom dplyr sym inner_join
 #' @examples
 extract_info <- function(report_data,
                          lookup,
@@ -59,30 +58,30 @@ extract_info <- function(report_data,
   pivot_cols <- info_cols[grep(info_regex, info_cols, invert = T)]
   output <-
     info_vars %>%
-    pivot_longer(cols = all_of(pivot_cols),
-                 names_to = c('instrument_prefix','.value'),
-                 names_pattern = "(.+)_(.+)$") %>%
-    dplyr::filter(!is.na(!!sym(filter_by)), !!sym(filter_by) != '')
+    tidyr::pivot_longer(cols = all_of(pivot_cols),
+                        names_to = c('instrument_prefix','.value'),
+                        names_pattern = "(.+)_(.+)$") %>%
+    dplyr::filter(!is.na(!!dplyr::sym(filter_by)), !!dplyr::sym(filter_by) != '')
 
 
   if(NA %in% output$date){
     warning("There are missing dates, please verify dates are entered in redcap.")
   }
 
-  output <- inner_join(output, lookup, by='instrument_prefix')
+  output <- dplyr::inner_join(output, lookup, by='instrument_prefix')
   if(make_uid){
-    output <- mutate(output,
-                     uid = paste(!!as.name(record_id_col),
-                                 redcap_repeat_instance,
-                                 instrument_prefix,
-                                 sep="_"),
-                     .before = 1)
+    output <- dplyr::mutate(output,
+                            uid = paste(!!as.name(record_id_col),
+                                        redcap_repeat_instance,
+                                        instrument_prefix,
+                                        sep="_"),
+                            .before = 1)
   }
   if(is.character(output$age)){
-    output <- mutate(output,
-                     age = as.numeric(age),
-                     tsonset = as.numeric(age),
-                     date = as.Date(date))
+    output <- dplyr::mutate(output,
+                            age = as.numeric(age),
+                            tsonset = as.numeric(age),
+                            date = as.Date(date))
   }
 
   output

@@ -17,7 +17,7 @@ summary_to_proportions <- function(inst_data, inst_prefix){
   # Convert summary scores to proportion correct (varies depending on section)
 
   fx_name <- paste0('.',inst_prefix,'_to_proportions')
-  if(existsFunction(fx_name)){
+  if(methods::existsFunction(fx_name)){
     do.call(fx_name, args = list(inst_data))
   } else{
     return(inst_data)

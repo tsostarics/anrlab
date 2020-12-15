@@ -12,7 +12,7 @@
 #'
 #' @examples
 prettify_instrument <- function(inst_data, inst_prefix){
-  fx_name <- paste0('.pretiffy_',inst_prefix)
+  fx_name <- paste0('.prettify_',inst_prefix)
   if(existsFunction(fx_name)){
     do.call(fx_name, args = list(inst_data))
   } else{

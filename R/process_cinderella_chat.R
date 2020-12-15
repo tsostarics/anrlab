@@ -188,12 +188,14 @@ process_multi_cinderella <- function(pathdf,
   if(colnames(pathdf) != c('filepath','record_id','instance')){
     stop("Error: Malformed path data frame. Must have columns filepath, record_id, instance")
   }
-  purrr::pmap(pathdf,
-              function(filepath, record_id, instance)
-                process_cinderella_chat(filepath,
-                                        record_id=record_id,
-                                        instance=instance,
-                                        researcher=researcher,
-                                        record_id_col=record_id_col)) %>%
-    data.table::rbindlist()
+  data.table::rbindlist(
+    purrr::pmap(pathdf,
+                function(filepath, record_id, instance)
+                  process_cinderella_chat(filepath,
+                                          record_id=record_id,
+                                          instance=instance,
+                                          researcher=researcher,
+                                          record_id_col=record_id_col)
+    )
+  )
 }

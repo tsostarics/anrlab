@@ -27,7 +27,7 @@
   # Remove completion status, this can be retrieved using extract_completes()
   inst_data <- inst_data[grep('_complete$|_info_', colnames(inst_data), invert = T)]
 
-  if(existsFunction(fx_name)){
+  if(methods::existsFunction(fx_name)){
     do.call(fx_name, args = list(inst_data))
   } else{
     return(inst_data)
@@ -43,10 +43,10 @@
   rename_checkboxes <- function(column){
     is_ynq_item = grepl('wab_ynq_\\d+',column)
     is_obncue = grepl('wab_obn_\\d+_cues', column)
-    col_item = str_extract(column, 'wab_..._\\d+')
-    last_num = str_extract(column,'.$')
+    col_item = stringr::str_extract(column, 'wab_..._\\d+')
+    last_num = stringr::str_extract(column,'.$')
     if(is_ynq_item){
-      case_when(
+      dplyr::case_when(
         last_num == '1' ~ paste0(col_item, '_acc'),
         last_num == '2' ~ paste0(col_item, '_verbal'),
         last_num == '3' ~ paste0(col_item, '_gestural'),
@@ -54,7 +54,7 @@
         last_num == '5' ~ paste0(col_item, '_noresponse'),
       )
     } else if(is_obncue){
-      case_when(
+      dplyr::case_when(
         last_num == '1' ~ paste0(col_item, '_tactile'),
         last_num == '2' ~ paste0(col_item, '_phonemic'),
         last_num == '3' ~ paste0(col_item, '_semantic')
@@ -77,14 +77,16 @@
   # navi_main_x_err___1/2/3 should be substitution, ommission, other
   new_cols <- colnames(inst_data)
   # Convert Inf (numeric) to 'Inf' (character) due to a mistaken readr guess
-  inst_data <- inst_data %>%
-    mutate(across(contains('_type') & where(is.numeric), as.character))
+  inst_data <-
+    dplyr::mutate(inst_data,
+                  dplyr::across(tidyselect::contains('_type') & where(is.numeric),
+                                as.character))
 
   rename_checkboxes <- function(column){
     if(grepl('_err',column)){
-      col_item = str_extract(column, 'navi_main_\\d+')
-      last_num = str_extract(column,'.$')
-      case_when(
+      col_item = stringr::str_extract(column, 'navi_main_\\d+')
+      last_num = stringr::str_extract(column,'.$')
+      dplyr::case_when(
         last_num == '1' ~ paste0(col_item, '_substitution'),
         last_num == '2' ~ paste0(col_item, '_ommission'),
         last_num == '3' ~ paste0(col_item, '_other')
@@ -104,9 +106,9 @@
 
   rename_checkboxes <- function(column){
     if(grepl('___',column)){
-      col_item = str_extract(column, 'navipre_[[:alnum:]]+_\\d+')
-      last_num = str_extract(column,'\\d+$')
-      case_when(
+      col_item = stringr::str_extract(column, 'navipre_[[:alnum:]]+_\\d+')
+      last_num = stringr::str_extract(column,'\\d+$')
+      dplyr::case_when(
         last_num == '1' ~ paste0(col_item, '_match'),
         last_num == '2' ~ paste0(col_item, '_read')
       )
@@ -130,11 +132,11 @@
 
   rename_checkboxes <- function(column){
     if(grepl('___',column)){
-      col_num = str_extract(column, '_(\\d+)')
-      col_type = str_extract(column, '_(noun|verb)')
+      col_num = stringr::str_extract(column, '_(\\d+)')
+      col_type = stringr::str_extract(column, '_(noun|verb)')
       col_item = paste0('nnberr', col_type, col_num)
-      last_num = str_extract(column,'\\d+$')
-      case_when(
+      last_num = stringr::str_extract(column,'\\d+$')
+      dplyr::case_when(
         last_num == '1'  ~ paste0(col_item, '_SR'),
         last_num == '2'  ~ paste0(col_item, '_SU'),
         last_num == '3'  ~ paste0(col_item, '_Pn'),

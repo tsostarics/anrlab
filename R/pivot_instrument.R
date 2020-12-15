@@ -16,19 +16,19 @@
 #'
 #' @examples
 .pivot_instrument <- function(instrument,
-                             instrument_prefix,
-                             instrument_regex = '_(.+)_(.+)_(.+)$',
-                             output_names = c("subtest","number",".value"),
-                             ...){
+                              instrument_prefix,
+                              instrument_regex = '_(.+)_(.+)_(.+)$',
+                              output_names = c("subtest","number",".value"),
+                              ...){
 
   # Get the columns that need to be pivoted (usually individual items)
   inst_pattern <- paste0(instrument_prefix, instrument_regex)
   pivot_cols <- grep(inst_pattern,colnames(instrument))
   instrument <- instrument %>%
-    pivot_longer(cols=all_of(pivot_cols),
-                 names_to = output_names,
-                 names_pattern = inst_pattern,
-                 ...)
+    tidyr::pivot_longer(cols=tidyselect::all_of(pivot_cols),
+                        names_to = output_names,
+                        names_pattern = inst_pattern,
+                        ...)
 
   # Set an attribute with the prefix so that we can reference it later
   # when we set the name of each instrument in the list

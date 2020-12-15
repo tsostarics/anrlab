@@ -26,7 +26,7 @@
 
   # Compose a function call of the form preprocess_[prefix]()
   fx_name <- paste0('.postprocess_',inst_prefix)
-  if(existsFunction(fx_name)){
+  if(methods::existsFunction(fx_name)){
     do.call(fx_name, args = list(inst_data))
   } else{
     return(inst_data)
@@ -34,52 +34,52 @@
 }
 
 .postprocess_wab <- function(inst_data){
-  mutate(inst_data,
-         across(verbal:phonemic, as.integer))
+  dplyr::mutate(inst_data,
+                dplyr::across(verbal:phonemic, as.integer))
 }
 
 .postprocess_navi <- function(inst_data){
-  mutate(inst_data,
-         across(substitution:other, as.integer))
+  dplyr::mutate(inst_data,
+                dplyr::across(substitution:other, as.integer))
 }
 
 .postprocess_navipre <- function(inst_data){
-  mutate(inst_data,
-         across(match:read, as.integer))
+  dplyr::mutate(inst_data,
+                dplyr::across(match:read, as.integer))
 }
 
 
 .postprocess_navipresum <- function(inst_data){
-  mutate(inst_data,
-         across(phon_num:npcomp_rsi_num, as.numeric))
+  dplyr::mutate(inst_data,
+                dplyr::across(phon_num:npcomp_rsi_num, as.numeric))
 }
 
 .postprocess_navisum <- function(inst_data){
-  mutate(inst_data,
-         across(inf_num:psi_num, as.numeric))
+  dplyr::mutate(inst_data,
+                dplyr::across(inf_num:psi_num, as.numeric))
 }
 
 .postprocess_nnb <- function(inst_data){
-  mutate(inst_data,
-         across(av, as.integer))
+  dplyr::mutate(inst_data,
+                dplyr::across(av, as.integer))
 }
 
 .postprocess_nnberr <- function(inst_data){
-  mutate(inst_data,
-         across(SR:Un, as.integer))
+  dplyr::mutate(inst_data,
+                dplyr::across(SR:Un, as.integer))
 }
 
 .postprocess_nnbsbtl <- function(inst_data){
-  mutate(inst_data,
-         across(ad_na_1_na:wr_verb_1_v, as.numeric))
+  dplyr::mutate(inst_data,
+                dplyr::across(ad_na_1_na:wr_verb_1_v, as.numeric))
 }
 
 .postprocess_nnbtotal <- function(inst_data){
-  mutate(inst_data,
-         across(ad_all:ac_verbs, as.numeric))
+  dplyr::mutate(inst_data,
+                dplyr::across(ad_all:ac_verbs, as.numeric))
 }
 
 .postprocess_wabsum <- function(inst_data){
-  mutate(inst_data,
-         across(ss_total:aq, as.numeric))
+  dplyr::mutate(inst_data,
+                dplyr::across(ss_total:aq, as.numeric))
 }

@@ -67,14 +67,13 @@ query_subjects <- function(instrument_db,
     this_inst <-
       dplyr::filter(filter_specification,
                     redcap_repeat_instrument == x)[keep_cols] %>%
-      .verify_datatypes(instrument_db[[y]],
-                        key_cols)
+      .verify_datatypes(instrument_db[[y]], key_cols)
 
-    inner_join(instrument_db[[y]], this_inst, by=key_cols)
+    dplyr::inner_join(instrument_db[[y]], this_inst, by=key_cols)
   })
 
   # The map results in an unnamed list, so we add the names back in
-  set_names(output, spec_prefixes)
+  purrr::set_names(output, spec_prefixes)
 
 }
 
