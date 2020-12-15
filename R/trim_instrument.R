@@ -14,7 +14,7 @@
 #' @examples
 .trim_instrument <- function(inst,
                              lookup,
-                             record_id_col='demo_record_id',
+                             record_id_col='record_id',
                              verbose = T){
   # print(inst)
   # Get the name and prefix of the instrument
@@ -34,6 +34,14 @@
   }
 
   inst_pref <- lookup[lookup['redcap_repeat_instrument']==inst_name, 'instrument_prefix']
+
+  if(grepl('^consent', inst_name)){
+    prefix_regex <- paste0('^(',record_id_col,'|',inst_pref,')')
+    inst <- inst[grep(prefix_regex,colnames(inst))]
+    attr(inst, 'redcap_instrument') <- inst_pref
+    return(inst)
+  }
+
 
   # Get the columns corresponding to the instrument using the correct prefix
   prefix_regex <- paste0('^(',record_id_col,'|redcap_|',inst_pref,'_)')

@@ -7,12 +7,14 @@
 #'
 #' @param redcap_uri Redcap user API URI
 #' @param redcap_token Redcap user API token
+#' @param ignore Any prefixes to ignore, really just here to ignore 'record_id'
+#' in the list of prefixes.
 #'
 #' @return
 #' @export
 #'
 #' @examples
-generate_lookup <- function(redcap_uri, redcap_token){
+generate_lookup <- function(redcap_uri, redcap_token, ignore='record'){
   # Get data dictionary
   metas <- REDCapR::redcap_metadata_read(redcap_uri, redcap_token)
   # Get instrument names
@@ -20,7 +22,10 @@ generate_lookup <- function(redcap_uri, redcap_token){
   # Extract prefixes for each instrument
   instrument_prefix <- unique(stringr::str_extract(metas$data$field_name,
                                                    "^[[:alnum:]]+"))
+  instrument_prefix <- instrument_prefix[instrument_prefix != ignore]
+
   # Combine instrument info into lookup table
   inst_lookup <- data.frame(redcap_repeat_instrument, instrument_prefix)
   inst_lookup
 }
+

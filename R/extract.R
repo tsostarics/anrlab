@@ -5,13 +5,13 @@
 #' when trying to exclude any data entry that isn't finished.
 #'
 #' @param report_data Raw report data from get_report or importing from .csv
-#' @param record_id_col column name for the record id, defaults to the lab's demo_record_id
+#' @param record_id_col column name for the record id, defaults to the lab's record_id
 #'
 #' @return A tibble containing the completion status value for each instrument
 #' for every participant in the given report
 #' @export
 #' @examples
-extract_completes <- function(report_data, record_id_col='demo_record_id'){
+extract_completes <- function(report_data, record_id_col='record_id'){
   complete_regex <- paste0(record_id_col, "|(_instance|_complete$)")
   complete_vars <- report_data[grep(complete_regex, colnames(report_data))]
 
@@ -32,7 +32,7 @@ extract_completes <- function(report_data, record_id_col='demo_record_id'){
 #' @param report_data Dataframe, the raw report data from get_report or importing from .csv
 #' @param lookup Dataframe, instrument Name-Prefix lookup table from generate_table or read in from a .csv
 #' @param make_uid Logical, should a unique id from the record id, instrument, and instance number be made?
-#' @param record_id_col String, name of the record id column, defaults to demo_record_id
+#' @param record_id_col String, name of the record id column, defaults to record_id
 #' @param filter_by String, name of the column to filter out NAs, defaults to user
 #'
 #' @return
@@ -41,7 +41,7 @@ extract_completes <- function(report_data, record_id_col='demo_record_id'){
 extract_info <- function(report_data,
                          lookup,
                          make_uid = T,
-                         record_id_col = 'demo_record_id',
+                         record_id_col = 'record_id',
                          filter_by = 'user'){
   # get only the record id, instance number, and info columns
   info_regex <- paste0(record_id_col, "|(_instance$)|(_info_)")

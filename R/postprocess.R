@@ -7,7 +7,6 @@
 #' @param inst_prefix Instrument's prefix
 #'
 #' @return
-#' @export
 #'
 #' @examples
 .postprocess <- function(inst_data, inst_prefix){

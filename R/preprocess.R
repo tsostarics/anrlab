@@ -23,9 +23,8 @@
     inline_sums <- '_subtotals|_totals|_score|_scores|_analysis'
     inst_data <- inst_data[grep(inline_sums, colnames(inst_data), invert=T)]
   }
-
-  # Remove completion status, this can be retrieved using extract_completes()
-  inst_data <- inst_data[grep('_complete$|_info_', colnames(inst_data), invert = T)]
+  unneeded_cols <- '(^consent)|(_complete$)|_info_'
+  inst_data <- inst_data[grep(unneeded_cols, colnames(inst_data), invert = T)]
 
   if(methods::existsFunction(fx_name)){
     do.call(fx_name, args = list(inst_data))

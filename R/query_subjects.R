@@ -27,7 +27,7 @@ query_subjects <- function(instrument_db,
                            join_info = T,
                            limit_cols = F,
                            include_cols = NA,
-                           record_id_col = 'demo_record_id'){
+                           record_id_col = 'record_id'){
 
   if(!'redcap_repeat_instrument' %in% colnames(filter_specification))
     stop('Column redcap_repeat_instrument not found in filter specification')

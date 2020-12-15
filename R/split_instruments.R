@@ -16,7 +16,7 @@
 #' @examples
 split_instruments <- function(report_data,
                               lookup,
-                              record_id_col = "demo_record_id",
+                              record_id_col = "record_id",
                               verbose = T){
 
   # Throw error if the repeat instrument isn't in the provided data
@@ -24,7 +24,7 @@ split_instruments <- function(report_data,
     stop("Provided data frame must contain the redcap_repeat_instrument field")
   if(!"redcap_repeat_instance" %in% colnames(report_data))
     stop("Provided data frame must contain the redcap_repeat_instance field")
-  print(lookup)
+
   # Group by instrument, split, then trim each instrument
   report_data <- dplyr::group_by(report_data, redcap_repeat_instrument)
   inst_data_list <- dplyr::group_split(report_data)

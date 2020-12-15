@@ -184,7 +184,7 @@ process_cinderella_chat <- function(filepath,
 #' @examples
 process_multi_cinderella <- function(pathdf,
                                      researcher=NA,
-                                     record_id_col = 'demo_record_id'){
+                                     record_id_col = 'record_id'){
   if(colnames(pathdf) != c('filepath','record_id','instance')){
     stop("Error: Malformed path data frame. Must have columns filepath, record_id, instance")
   }
