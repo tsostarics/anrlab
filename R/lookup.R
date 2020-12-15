@@ -18,7 +18,7 @@ generate_lookup <- function(redcap_uri, redcap_token){
   # Get instrument names
   redcap_repeat_instrument <- unique(metas$data$form_name)
   # Extract prefixes for each instrument
-  instrument_prefix <- unique(str_extract(metas$data$field_name,
+  instrument_prefix <- unique(stringr::str_extract(metas$data$field_name,
                                           "^[[:alnum:]]+"))
   # Combine instrument info into lookup table
   inst_lookup <- data.frame(redcap_repeat_instrument, instrument_prefix)

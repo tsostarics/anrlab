@@ -19,4 +19,9 @@ Imports:
     dplyr,
     RcppSimdJson,
     RCurl,
-    magrittr
+    magrittr,
+    data.table,
+    methods,
+    stats,
+    utils,
+    tibble

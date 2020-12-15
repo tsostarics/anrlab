@@ -10,15 +10,15 @@
 #' @return A tibble containing the completion status value for each instrument
 #' for every participant in the given report
 #' @export
-#'
 #' @examples
 extract_completes <- function(report_data, record_id_col='demo_record_id'){
   complete_regex <- paste0(record_id_col, "|(_instance|_complete$)")
   complete_vars <- report_data[grep(complete_regex, colnames(report_data))]
 
-  pivot_longer(complete_vars,
-               cols = contains('_complete'),
-               names_to = 'instrument_complete') %>% filter(!is.na(value))
+  dplyr::filter(pivot_longer(complete_vars,
+                             cols = contains('_complete'),
+                             names_to = 'instrument_complete'),
+                !is.na(value))
 }
 
 
@@ -37,7 +37,7 @@ extract_completes <- function(report_data, record_id_col='demo_record_id'){
 #'
 #' @return
 #' @export
-#'
+#' @importFrom dplyr sym inner_join
 #' @examples
 extract_info <- function(report_data,
                          lookup,
@@ -62,7 +62,7 @@ extract_info <- function(report_data,
     pivot_longer(cols = all_of(pivot_cols),
                  names_to = c('instrument_prefix','.value'),
                  names_pattern = "(.+)_(.+)$") %>%
-    filter(!is.na(!!sym(filter_by)), !!sym(filter_by) != '')
+    dplyr::filter(!is.na(!!sym(filter_by)), !!sym(filter_by) != '')
 
 
   if(NA %in% output$date){
@@ -85,5 +85,5 @@ extract_info <- function(report_data,
                      date = as.Date(date))
   }
 
-  ouput
+  output
 }

@@ -65,10 +65,10 @@ query_subjects <- function(instrument_db,
 
   output <- purrr::map2(spec_names, spec_prefixes, function(x,y){
     this_inst <-
-      filter(filter_specification,
-             redcap_repeat_instrument == x)[keep_cols] %>%
+      dplyr::filter(filter_specification,
+                    redcap_repeat_instrument == x)[keep_cols] %>%
       .verify_datatypes(instrument_db[[y]],
-                       key_cols)
+                        key_cols)
 
     inner_join(instrument_db[[y]], this_inst, by=key_cols)
   })
@@ -92,8 +92,8 @@ query_subjects <- function(instrument_db,
 #'
 #' @examples
 .verify_datatypes <- function(filter_spec,
-                             inst_data,
-                             cols){
+                              inst_data,
+                              cols){
   for(col in cols){
     type_data <- typeof(inst_data[[col]])
     type_spec <- typeof(filter_spec[[col]])

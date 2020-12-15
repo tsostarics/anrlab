@@ -11,7 +11,7 @@
 get_report <- function(rep_id, redcap_uri, redcap_token){
   tibble::as_tibble(
     RcppSimdJson::fparse(
-      postForm(
+      RCurl::postForm(
         uri=redcap_uri,
         token=redcap_token,
         content='report',

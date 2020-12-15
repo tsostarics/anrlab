@@ -11,16 +11,15 @@
 #' of each instrument as it's processing it. Useful for debugging.
 #'
 #' @return
-#'
 #' @examples
 .trim_instrument <- function(inst,
                             lookup,
                             record_id_col='demo_record_id',
                             verbose = T){
-
+  # print(inst)
   # Get the name and prefix of the instrument
-  inst_name <- inst$redcap_repeat_instrument[1L]
-  inst_pref <- lookup[lookup$redcap_repeat_instrument==inst_name,'instrument_prefix']
+  inst_name <- inst[[1L, 'redcap_repeat_instrument']]
+
   if(verbose) ifelse(is.na(inst_name)|inst_name=='',
                      print('non-repeat instruments'),
                      print(inst_name))
@@ -33,6 +32,8 @@
     attr(inst, 'redcap_instrument') <- 'demographics'
     return(inst)
   }
+
+  inst_pref <- lookup[lookup['redcap_repeat_instrument']==inst_name, 'instrument_prefix']
 
   # Get the columns corresponding to the instrument using the correct prefix
   prefix_regex <- paste0('^(',record_id_col,'|redcap_|',inst_pref,'_)')

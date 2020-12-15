@@ -13,7 +13,11 @@
 #'
 #' @return List of dataframes, named according to instrument prefix
 #' @export
-#'
+#' @importFrom dplyr mutate across case_when group_by group_split
+#' @importFrom purrr set_names
+#' @importFrom tidyr pivot_longer
+#' @importFrom tidyselect all_of
+#' @importFrom stringr str_extract
 #' @examples
 split_instruments <- function(report_data,
                               lookup,
@@ -25,14 +29,14 @@ split_instruments <- function(report_data,
     stop("Provided data frame must contain the redcap_repeat_instrument field")
   if(!"redcap_repeat_instance" %in% colnames(report_data))
     stop("Provided data frame must contain the redcap_repeat_instance field")
-
+  print(lookup)
   # Group by instrument, split, then trim each instrument
   report_data <- group_by(report_data, redcap_repeat_instrument)
   inst_data_list <- group_split(report_data)
   inst_data_list <- purrr::map(inst_data_list,
                                function(x) .trim_instrument(x,
-                                                           record_id_col,
                                                            lookup,
+                                                           record_id_col,
                                                            verbose))
 
   # Extract names stored in the attribute of each instrument data frame
