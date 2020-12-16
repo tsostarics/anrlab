@@ -12,13 +12,13 @@
 #' @param date Character, Date of the sample in MM-DD-YYYY format
 #' @param study Character, Which study is this sample for?
 #' @param timepoint Character, Which timepoint of the study is this sample for?
-#' @param record_id_col
-#' @param inst_name
+#' @param record_id_col Defaults to record_id
+#' @param inst_name Defaults to cinderella_narrative_summary
 #'
-#' @return
+#' @return A dataframe ready to be exported to redcap
 #' @export
 #'
-#' @examples
+#' @examples TODO
 process_cinderella_chat <- function(filepath,
                                     record_id=NA,
                                     instance=NA,
@@ -176,12 +176,13 @@ process_cinderella_chat <- function(filepath,
 #'
 #' @param pathdf A dataframe with the filepaths and relevant metadata
 #' @param researcher Character, researcher NetID
-#' @param record_id_col
+#' @param record_id_col Defaults to record_id
 #'
-#' @return
+#' @return A dataframe with multiple narrative samples ready to be imported
+#' into redcap
 #' @export
 #'
-#' @examples
+#' @examples TODO
 process_multi_cinderella <- function(pathdf,
                                      researcher=NA,
                                      record_id_col = 'record_id'){

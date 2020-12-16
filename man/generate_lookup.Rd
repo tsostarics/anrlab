@@ -4,18 +4,24 @@
 \alias{generate_lookup}
 \title{Generate Instrument Name-Prefix Lookup Table}
 \usage{
-generate_lookup(redcap_uri, redcap_token)
+generate_lookup(redcap_uri, redcap_token, ignore = "record")
 }
 \arguments{
 \item{redcap_uri}{Redcap user API URI}
 
 \item{redcap_token}{Redcap user API token}
+
+\item{ignore}{Any prefixes to ignore, really just here to ignore 'record_id'
+in the list of prefixes.}
 }
 \value{
-
+A dataframe with all the instrument names and their prefixes
 }
 \description{
 Must have API privileges and be connected to the Northwestern VPN. Creates
 a lookup table based on the RedcapR::redcap_metadata_read() function. Note:
 I need to include an offline object within the package for people to use.
+}
+\examples{
+TODO
 }

@@ -4,21 +4,26 @@
 \alias{.trim_instrument}
 \title{Trim instrument}
 \usage{
-.trim_instrument(inst, lookup, record_id_col = "demo_record_id", verbose = T)
+.trim_instrument(inst, lookup, record_id_col = "record_id", verbose = T)
 }
 \arguments{
 \item{inst}{Instrument data}
 
 \item{lookup}{Instrument name-prefix lookup table from generate_lookup}
 
+\item{record_id_col}{Defaults to record_id}
+
 \item{verbose}{Logical, inherits from split_instrument, prints the name
 of each instrument as it's processing it. Useful for debugging.}
 }
 \value{
-
+Smaller dataframe that's pivoted to long form and postprocessed
 }
 \description{
 Helper for split_instruments, actually does all of the hard work of paring
 down each instrument's data and passing it off to the pre and post
 processer helpers.
+}
+\examples{
+TODO
 }

@@ -14,7 +14,8 @@
 \item{inst_name}{The name for this instrument}
 }
 \value{
-
+A smaller dataframe with some columns renamed depending on the
+instrument provided
 }
 \description{
 Our field names in Redcap have a lot of information in them, but some of them
@@ -23,4 +24,7 @@ information that's common to all instruments and also calls additional
 instrument-specific functions as needed. For example, checkbox matrices
 in redcap append ___X to the field name, but what X means will vary from
 instrument to instrument.
+}
+\examples{
+TODO
 }

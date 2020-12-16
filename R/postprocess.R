@@ -6,9 +6,9 @@
 #' @param inst_data One instrument's data
 #' @param inst_prefix Instrument's prefix
 #'
-#' @return
+#' @return A dataframe with some cleaned up names and datatypes
 #'
-#' @examples
+#' @examples TODO
 .postprocess <- function(inst_data, inst_prefix){
   # Common .postprocessing that should be done on all instruments
 

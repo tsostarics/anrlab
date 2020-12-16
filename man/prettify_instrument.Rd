@@ -12,10 +12,14 @@ prettify_instrument(inst_data, inst_prefix)
 \item{inst_prefix}{Instrument prefix}
 }
 \value{
-
+The instrument data frame but with various things manually renamed
+to make them easier to read
 }
 \description{
 Renames columns and applies labels as needed to make the data easier to read.
 This is not called automatically like .preprocess() and .postprocess(), and
 so is done on an as-needed basis.
+}
+\examples{
+TODO
 }

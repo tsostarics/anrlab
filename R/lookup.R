@@ -10,10 +10,10 @@
 #' @param ignore Any prefixes to ignore, really just here to ignore 'record_id'
 #' in the list of prefixes.
 #'
-#' @return
+#' @return A dataframe with all the instrument names and their prefixes
 #' @export
 #'
-#' @examples
+#' @examples TODO
 generate_lookup <- function(redcap_uri, redcap_token, ignore='record'){
   # Get data dictionary
   metas <- REDCapR::redcap_metadata_read(redcap_uri, redcap_token)

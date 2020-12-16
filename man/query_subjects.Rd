@@ -10,7 +10,7 @@ query_subjects(
   join_info = T,
   limit_cols = F,
   include_cols = NA,
-  record_id_col = "demo_record_id"
+  record_id_col = "record_id"
 )
 }
 \arguments{
@@ -29,10 +29,11 @@ then include only the columns given by include_cols}
 \item{include_cols}{Character Vector, vector of which columns to include.
 Must be present in filter_specification.}
 
-\item{record_id_col}{}
+\item{record_id_col}{Defaults to record_id}
 }
 \value{
-
+A list of instruments filtered according to the records provided
+by the filter specification data frame
 }
 \description{
 This function utilizes the output of extract_infos, which can then be
@@ -40,4 +41,7 @@ filtered according to some criteria, to filter the list of dataframes from
 split_instruments. This lets us avoid having to utilize apply or map
 functions to apply a particular filter like "Only the Project A patients
 at baseline."
+}
+\examples{
+TODO
 }

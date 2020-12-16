@@ -7,7 +7,7 @@
 split_instruments(
   report_data,
   lookup,
-  record_id_col = "demo_record_id",
+  record_id_col = "record_id",
   verbose = T
 )
 }
@@ -15,6 +15,8 @@ split_instruments(
 \item{report_data}{Dataframe, the raw exported data from a report}
 
 \item{lookup}{Dataframe, instrument name-prefix lookup table.}
+
+\item{record_id_col}{Defaults to record_id}
 
 \item{verbose}{Logical, if True will print each instrument as it's processing}
 }
@@ -27,4 +29,7 @@ dataframes. Each dataframe is 1 Redcap instrument's worth of data in tidy
 format. Instrument data can be accessed through $ notation such as
 output$nnb to get the data from the Northwestern Naming Battery. The name
 of each dataframe is set to be the instrument prefix to keep things short.
+}
+\examples{
+TODO
 }

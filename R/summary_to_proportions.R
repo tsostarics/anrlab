@@ -6,13 +6,14 @@
 #' denominator should be for each score (eg sometimes out of 5, sometimes out
 #' of 74).
 #'
-#' @param inst_data
-#' @param inst_prefix
+#' @param inst_data Instrument data, must be a summary instrument
+#' @param inst_prefix Instrument prefix
 #'
-#' @return
+#' @return The instrument but with raw # correct converted to the appropriate
+#' % correct
 #' @export
 #'
-#' @examples
+#' @examples TODO
 summary_to_proportions <- function(inst_data, inst_prefix){
   # Convert summary scores to proportion correct (varies depending on section)
 

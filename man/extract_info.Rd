@@ -8,7 +8,7 @@ extract_info(
   report_data,
   lookup,
   make_uid = T,
-  record_id_col = "demo_record_id",
+  record_id_col = "record_id",
   filter_by = "user"
 )
 }
@@ -19,15 +19,18 @@ extract_info(
 
 \item{make_uid}{Logical, should a unique id from the record id, instrument, and instance number be made?}
 
-\item{record_id_col}{String, name of the record id column, defaults to demo_record_id}
+\item{record_id_col}{String, name of the record id column, defaults to record_id}
 
 \item{filter_by}{String, name of the column to filter out NAs, defaults to user}
 }
 \value{
-
+A dataframe with all of the "info" data from each instrument
 }
 \description{
 Extract the information from the top of each instrument such as age & tsonset.
 This is valuable to filter which records you actually want, then you
 can filter each instrument via joining operations
+}
+\examples{
+TODO
 }

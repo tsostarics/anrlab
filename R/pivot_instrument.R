@@ -12,9 +12,9 @@
 #' @param output_names Output names for the capture groups of the regex
 #' @param ... Other options for pivot_longer()
 #'
-#' @return
+#' @return A pivoted instrument
 #'
-#' @examples
+#' @examples TODO
 .pivot_instrument <- function(instrument,
                               instrument_prefix,
                               instrument_regex = '_(.+)_(.+)_(.+)$',

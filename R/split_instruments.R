@@ -8,12 +8,12 @@
 #'
 #' @param report_data Dataframe, the raw exported data from a report
 #' @param lookup Dataframe, instrument name-prefix lookup table.
-#' @param record_id_col
+#' @param record_id_col Defaults to record_id
 #' @param verbose Logical, if True will print each instrument as it's processing
 #'
 #' @return List of dataframes, named according to instrument prefix
 #' @export
-#' @examples
+#' @examples TODO
 split_instruments <- function(report_data,
                               lookup,
                               record_id_col = "record_id",

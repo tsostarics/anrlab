@@ -21,3 +21,6 @@ Helper for query_subjects(), the column datatypes for the dataset from
 an api call and importing from a file can differ, which prevents the inner
 join from working.
 }
+\examples{
+TODO
+}

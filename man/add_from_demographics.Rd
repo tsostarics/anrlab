@@ -21,10 +21,14 @@ add_from_demographics(
 \item{record_id_col}{}
 }
 \value{
-
+The extracted_info dataframe with the columns from demographics
+specified in include_cols
 }
 \description{
 This is a wrapper for left_join to make it a bit easier for people without
 knowledge of SQL-esque joins to simply take information from the demographics
 table (such as subject ID or aphasia status) and add it to the info table.
+}
+\examples{
+TODO
 }

@@ -25,11 +25,14 @@ name}
 \item{...}{Other options for pivot_longer()}
 }
 \value{
-
+A pivoted instrument
 }
 \description{
 Helper for trim_instrument, handles the actual pivot across particular
 columns. NOTE: The instrument_regex parameter is what our lab uses across
 most instruments. If this needs to be changed later or generalizable for
 other labs, then it's there. For now things work for us just fine.
+}
+\examples{
+TODO
 }

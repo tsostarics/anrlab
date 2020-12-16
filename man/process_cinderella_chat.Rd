@@ -32,13 +32,18 @@ narrative sample}
 
 \item{timepoint}{Character, Which timepoint of the study is this sample for?}
 
-\item{inst_name}{}
+\item{record_id_col}{Defaults to record_id}
+
+\item{inst_name}{Defaults to cinderella_narrative_summary}
 }
 \value{
-
+A dataframe ready to be exported to redcap
 }
 \description{
 Takes the output from CHAT for a narrative sample and converts it into a form
 that can be directly read into Redcap. This can be done through an API write
 call or through uploading it manually.
+}
+\examples{
+TODO
 }

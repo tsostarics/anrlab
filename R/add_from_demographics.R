@@ -9,10 +9,11 @@
 #' @param include_cols Which columns to add to the info table
 #' @param record_id_col
 #'
-#' @return
+#' @return The extracted_info dataframe with the columns from demographics
+#' specified in include_cols
 #' @export
 #'
-#' @examples
+#' @examples TODO
 add_from_demographics <- function(extracted_info,
                                   demographics,
                                   include_cols,

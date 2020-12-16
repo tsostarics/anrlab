@@ -6,12 +6,12 @@
 #'
 #' @param inst Instrument data
 #' @param lookup Instrument name-prefix lookup table from generate_lookup
-#' @param record_id_col
+#' @param record_id_col Defaults to record_id
 #' @param verbose Logical, inherits from split_instrument, prints the name
 #' of each instrument as it's processing it. Useful for debugging.
 #'
-#' @return
-#' @examples
+#' @return Smaller dataframe that's pivoted to long form and postprocessed
+#' @examples TODO
 .trim_instrument <- function(inst,
                              lookup,
                              record_id_col='record_id',

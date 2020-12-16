@@ -7,10 +7,13 @@
 summary_to_proportions(inst_data, inst_prefix)
 }
 \arguments{
-\item{inst_prefix}{}
+\item{inst_data}{Instrument data, must be a summary instrument}
+
+\item{inst_prefix}{Instrument prefix}
 }
 \value{
-
+The instrument but with raw # correct converted to the appropriate
+\% correct
 }
 \description{
 Summary score instruments provide the raw # of items correct depending on
@@ -18,4 +21,7 @@ the section and item type. This function will convert those into a percentage
 correct, utilizing instrument-specific helpers to determine what the
 denominator should be for each score (eg sometimes out of 5, sometimes out
 of 74).
+}
+\examples{
+TODO
 }

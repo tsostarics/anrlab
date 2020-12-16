@@ -4,7 +4,7 @@
 \alias{get_report}
 \title{Get Redcap Report}
 \usage{
-get_report(rep_id, redcap_uri, redcap_token)
+get_report(rep_id, redcap_uri, redcap_token, redcap_username)
 }
 \arguments{
 \item{rep_id}{Report ID on Redcap}
@@ -12,10 +12,16 @@ get_report(rep_id, redcap_uri, redcap_token)
 \item{redcap_uri}{Redcap user API URI}
 
 \item{redcap_token}{Redcap user API token}
+
+\item{redcap_username}{Redcap username (NetID for Northwestern). This is used
+to verify data export privileges.}
 }
 \value{
 A tibble representation of the specified redcap report
 }
 \description{
 Get Redcap Report
+}
+\examples{
+TODO
 }

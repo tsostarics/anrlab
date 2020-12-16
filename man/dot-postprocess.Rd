@@ -12,9 +12,12 @@
 \item{inst_prefix}{Instrument's prefix}
 }
 \value{
-
+A dataframe with some cleaned up names and datatypes
 }
 \description{
 After pivoting an instrument, some postprocessing needs to be done. Usually
 this means converting datatypes from character to numeric.
+}
+\examples{
+TODO
 }

@@ -4,23 +4,23 @@
 \alias{process_multi_cinderella}
 \title{Process Multiple Cinderella Narratives}
 \usage{
-process_multi_cinderella(
-  pathdf,
-  researcher = NA,
-  record_id_col = "demo_record_id"
-)
+process_multi_cinderella(pathdf, researcher = NA, record_id_col = "record_id")
 }
 \arguments{
 \item{pathdf}{A dataframe with the filepaths and relevant metadata}
 
 \item{researcher}{Character, researcher NetID}
 
-\item{record_id_col}{}
+\item{record_id_col}{Defaults to record_id}
 }
 \value{
-
+A dataframe with multiple narrative samples ready to be imported
+into redcap
 }
 \description{
 Given a dataframe with filepaths and metadata, use it to process multiple
 narrative samples. This will convert all files into Redcap-readable form.
+}
+\examples{
+TODO
 }

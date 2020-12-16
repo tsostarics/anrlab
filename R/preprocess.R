@@ -12,9 +12,10 @@
 #' @param inst_prefix The prefix for this instrument
 #' @param inst_name The name for this instrument
 #'
-#' @return
+#' @return A smaller dataframe with some columns renamed depending on the
+#' instrument provided
 #'
-#' @examples
+#' @examples TODO
 .preprocess <- function(inst_data, inst_prefix, inst_name){
   # Compose a function call of the form .preprocess_[prefix]()
   fx_name <- paste0('.preprocess_',inst_prefix)

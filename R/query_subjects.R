@@ -16,12 +16,13 @@
 #' then include only the columns given by include_cols
 #' @param include_cols Character Vector, vector of which columns to include.
 #' Must be present in filter_specification.
-#' @param record_id_col
+#' @param record_id_col Defaults to record_id
 #'
-#' @return
+#' @return A list of instruments filtered according to the records provided
+#' by the filter specification data frame
 #' @export
 #'
-#' @examples
+#' @examples TODO
 query_subjects <- function(instrument_db,
                            filter_specification,
                            join_info = T,
@@ -89,7 +90,7 @@ query_subjects <- function(instrument_db,
 #'
 #' @return
 #'
-#' @examples
+#' @examples TODO
 .verify_datatypes <- function(filter_spec,
                               inst_data,
                               cols){

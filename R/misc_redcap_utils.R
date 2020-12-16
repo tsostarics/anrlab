@@ -9,7 +9,7 @@
 #' @return A tibble representation of the specified redcap report
 #' @export
 #'
-#' @examples
+#' @examples TODO
 get_report <- function(rep_id,
                        redcap_uri,
                        redcap_token,
