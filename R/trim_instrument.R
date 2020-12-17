@@ -54,8 +54,8 @@
   # If this is a summary score instrument then we don't need to pivot it
   if(grepl('_summary', inst_name)){
     attr(inst, 'redcap_instrument') <- inst_pref
-    return(.postprocess(inst, inst_pref))
+    return(.postprocess(inst, inst_pref, verbose))
   }
   # All other instruments need to be converted to long form
-  .postprocess(.pivot_instrument(inst, inst_pref), inst_pref)
+  .postprocess(.pivot_instrument(inst, inst_pref), inst_pref, verbose)
 }
