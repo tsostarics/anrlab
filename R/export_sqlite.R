@@ -8,25 +8,35 @@
 #' @param instrument_list A list of instruments, either from split_instruments()
 #' or query_subjects() (but you probably want the full data from the former)
 #'
-#' @return NULL if successful, a named vector if one or more are unsuccessful
+#' @return Nothing, will display a message if successful
 #' @export
 #'
 #' @examples
 #'
+#' # Set up instruments and database
 #' all_instruments <- split_instruments(report, lookup)
 #' db_con <- RSQLite::dbConnect(RSQLite::SQLite(), ":memory:")
 #'
+#' # Send all instruments to database connection
 #' export_sqlite(db_con, all_instruments)
+#'
+#' # Run a simple query
+#' RSQLite::dbGetQuery(dbcon,"SELECT
+#'                              wab.*,
+#'                              wabsum.aq
+#'                            FROM wab
+#'                            LEFT JOIN wabsum
+#'                            USING (record_id, redcap_repeat_instance)")
 #'
 export_sqlite <- function(conn, instrument_list, ...){
   results <-
     sapply(report_db,
-         function(x)
-           dbWriteTable(conn = conn,
-                        name = attributes(x)$redcap_instrument,
-                        value = x,
-                        ...)
-  )
+           function(x)
+             RSQLite::dbWriteTable(conn = conn,
+                                   name = attributes(x)$redcap_instrument,
+                                   value = x,
+                                   ...)
+    )
   if(!all(results)){
     warning("There was an issue sending one or more instruments to the database, please review.")
     results

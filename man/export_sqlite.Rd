@@ -4,7 +4,7 @@
 \alias{export_sqlite}
 \title{Export to SQLite Database}
 \usage{
-export_sqlite(conn, instrument_list)
+export_sqlite(conn, instrument_list, ...)
 }
 \arguments{
 \item{conn}{A database connection from RSQLite::dbConnect()}
@@ -13,7 +13,7 @@ export_sqlite(conn, instrument_list)
 or query_subjects() (but you probably want the full data from the former)}
 }
 \value{
-NULL if successful, a named vector if one or more are unsuccessful
+Nothing, will display a message if successful
 }
 \description{
 Add a list of instrument dataframes from split_instruments() to an RSQLite
@@ -22,9 +22,19 @@ wrapper for lapply to add all the instruments at once.
 }
 \examples{
 
+# Set up instruments and database
 all_instruments <- split_instruments(report, lookup)
 db_con <- RSQLite::dbConnect(RSQLite::SQLite(), ":memory:")
 
+# Send all instruments to database connection
 export_sqlite(db_con, all_instruments)
+
+# Run a simple query
+RSQLite::dbGetQuery(dbcon,"SELECT
+                             wab.*,
+                             wabsum.aq
+                           FROM wab
+                           LEFT JOIN wabsum
+                           USING (record_id, redcap_repeat_instance)")
 
 }
