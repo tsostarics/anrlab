@@ -18,7 +18,7 @@
                              verbose = T){
   # print(inst)
   # Get the name and prefix of the instrument
-  inst_name <- inst[[1L, 'redcap_repeat_instrument']]
+  inst_name <- inst$redcap_repeat_instrument[1L]
 
   if(verbose) ifelse(is.na(inst_name)|inst_name=='',
                      print('non-repeat instruments'),
@@ -33,7 +33,8 @@
     return(inst)
   }
 
-  inst_pref <- lookup[lookup['redcap_repeat_instrument']==inst_name, 'instrument_prefix']
+  inst_pref <- lookup[lookup$redcap_repeat_instrument==inst_name,
+                      'instrument_prefix'][[1L]]
 
   if(grepl('^consent', inst_name)){
     prefix_regex <- paste0('^(',record_id_col,'|',inst_pref,')')
