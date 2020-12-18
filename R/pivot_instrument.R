@@ -20,8 +20,17 @@
                               instrument_regex = '_(.+)_(.+)_(.+)$',
                               output_names = c("subtest","number",".value"),
                               ...){
+  # note: the nat is using a different regex... trying to think of the best way
+  # to handle that without hardcoding it in the lookup...
+  # maybe counting the number of underscores to get the number of fields?
+  # nnb_cn_1_type versus nat_1_type, the only difference would be removing the
+  #  subtest in the vector and one of the _(.+)s... I think that might work decently...
+
 
   # Get the columns that need to be pivoted (usually individual items)
+  # note: i think this can be simplified to use tidyselect::matches instead
+  # of computing the pivot cols
+  #
   inst_pattern <- paste0(instrument_prefix, instrument_regex)
   pivot_cols <- grep(inst_pattern,colnames(instrument))
   instrument <- instrument %>%
