@@ -19,7 +19,7 @@ get_report <- function(rep_id,
   user_info <-
     suppressWarnings(
       REDCapR::redcap_users_export(redcap_uri, redcap_token)$data_user
-      )
+    )
 
   # Extract Data Export privilege for specified username
   user_privileges <-user_info[user_info['username']==redcap_username,
@@ -43,6 +43,21 @@ get_report <- function(rep_id,
         rawOrLabel='raw',
         rawOrLabelHeaders='raw',
         exportCheckboxLabel='false',
+        returnFormat='json'
+      )
+    )
+  )
+}
+
+
+get_repeating <- function(redcap_uri, redcap_token){
+  tibble::as_tibble(
+    RcppSimdJson::fparse(
+      RCurl::postForm(
+        uri=redcap_uri,
+        token=redcap_token,
+        content='repeatingFormsEvents',
+        format='json',
         returnFormat='json'
       )
     )

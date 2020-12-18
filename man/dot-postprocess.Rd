@@ -4,7 +4,7 @@
 \alias{.postprocess}
 \title{Postprocess instrument data}
 \usage{
-.postprocess(inst_data, inst_prefix)
+.postprocess(inst_data, inst_prefix, verbose = T)
 }
 \arguments{
 \item{inst_data}{One instrument's data}

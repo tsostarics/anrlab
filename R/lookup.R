@@ -14,18 +14,24 @@
 #' @export
 #'
 #' @examples TODO
-generate_lookup <- function(redcap_uri, redcap_token, ignore='record'){
+generate_new_lookup <- function(redcap_uri, redcap_token, ignore='record'){
   # Get data dictionary
-  metas <- REDCapR::redcap_metadata_read(redcap_uri, redcap_token)
-  # Get instrument names
-  redcap_repeat_instrument <- unique(metas$data$form_name)
-  # Extract prefixes for each instrument
-  instrument_prefix <- unique(stringr::str_extract(metas$data$field_name,
-                                                   "^[[:alnum:]]+"))
-  instrument_prefix <- instrument_prefix[instrument_prefix != ignore]
+  inst_lookup <-
+    dplyr::select(
+      REDCapR::redcap_metadata_read(redcap_uri, redcap_token)$data,
+      instrument_name = form_name,
+      field_name
+    )
 
-  # Combine instrument info into lookup table
-  inst_lookup <- data.frame(redcap_repeat_instrument, instrument_prefix)
+  repeating_insts <- get_repeating(uri, tkn)$form_name
+
+
+  inst_lookup <-
+    dplyr::group_by(inst_lookup, instrument_name) %>%
+    dplyr::summarize(instrument_prefix = stringr::str_extract(dplyr::last(field_name), "^[[:alnum:]]+"),
+                     fields = list(field_name))
+
+  inst_lookup$is_repeating <- inst_lookup$instrument_name %in% repeating_insts
   inst_lookup
 }
 
