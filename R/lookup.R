@@ -2,7 +2,7 @@
 #' Generate Instrument Name-Prefix Lookup Table
 #'
 #' Must have API privileges and be connected to the Northwestern VPN. This
-#' will return a new version of the acnrlab_instruments objects. Future
+#' will return a new version of the anrlab_instruments objects. Future
 #' maintainers should run this and update that object whenever changes are made
 #' to instruments or new instruments are added. This shouldn't happen frequently
 #' once a project is moved to production mode.

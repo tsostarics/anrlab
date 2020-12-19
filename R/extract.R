@@ -39,7 +39,7 @@ extract_completes <- function(report_data, record_id_col='record_id'){
 #' @export
 #' @examples TODO
 extract_info <- function(report_data,
-                         lookup = acnrlab_instruments,
+                         lookup = anrlab_instruments,
                          make_uid = T,
                          record_id_col = 'record_id',
                          filter_by = 'user'){

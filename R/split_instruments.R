@@ -15,7 +15,7 @@
 #' @export
 #' @examples TODO
 split_instruments <- function(report_data,
-                              lookup = acnrlab_instruments,
+                              lookup = anrlab_instruments,
                               record_id_col = "record_id",
                               verbose = T){
 

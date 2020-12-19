@@ -9,4 +9,4 @@
 #'   \item{fields}{list of variables/field names for this instrument}
 #'   \item{is_repeating}{True if it's a repeating instrument, else False}
 #' }
-"acnrlab_instruments"
+"anrlab_instruments"
