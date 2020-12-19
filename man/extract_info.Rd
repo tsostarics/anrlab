@@ -6,7 +6,7 @@
 \usage{
 extract_info(
   report_data,
-  lookup,
+  lookup = acnrlab_instruments,
   make_uid = T,
   record_id_col = "record_id",
   filter_by = "user"

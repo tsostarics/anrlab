@@ -6,7 +6,7 @@
 \usage{
 split_instruments(
   report_data,
-  lookup,
+  lookup = acnrlab_instruments,
   record_id_col = "record_id",
   verbose = T
 )

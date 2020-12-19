@@ -4,7 +4,7 @@
 \alias{generate_new_lookup}
 \title{Generate Instrument Name-Prefix Lookup Table}
 \usage{
-generate_new_lookup(redcap_uri, redcap_token, ignore = "record")
+generate_new_lookup(redcap_uri, redcap_token)
 }
 \arguments{
 \item{redcap_uri}{Redcap user API URI}
@@ -18,9 +18,11 @@ in the list of prefixes.}
 A dataframe with all the instrument names and their prefixes
 }
 \description{
-Must have API privileges and be connected to the Northwestern VPN. Creates
-a lookup table based on the RedcapR::redcap_metadata_read() function. Note:
-I need to include an offline object within the package for people to use.
+Must have API privileges and be connected to the Northwestern VPN. This
+will return a new version of the acnrlab_instruments objects. Future
+maintainers should run this and update that object whenever changes are made
+to instruments or new instruments are added. This shouldn't happen frequently
+once a project is moved to production mode.
 }
 \examples{
 TODO

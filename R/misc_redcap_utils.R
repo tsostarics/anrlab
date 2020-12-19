@@ -55,13 +55,12 @@ get_report <- function(rep_id,
 #' Returns a dataframe with all the repeating instrument names and their
 #' event labels. Used when generating a new lookup table.
 #'
-#' @param redcap_uri
-#' @param redcap_token
+#' @param redcap_uri Redcap user API URI
+#' @param redcap_token Redcap user API token
 #'
-#' @return A dataframe with instrument information.
+#' @return A dataframe with repeating instrument information.
 #' @export
 #'
-#' @examples
 get_repeating <- function(redcap_uri, redcap_token){
   tibble::as_tibble(
     RcppSimdJson::fparse(

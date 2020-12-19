@@ -4,7 +4,12 @@
 \alias{.trim_instrument}
 \title{Trim instrument}
 \usage{
-.trim_instrument(inst, lookup, record_id_col = "record_id", verbose = T)
+.trim_instrument(
+  inst,
+  lookup = acnrlab_instruments,
+  record_id_col = "record_id",
+  verbose = T
+)
 }
 \arguments{
 \item{inst}{Instrument data}
