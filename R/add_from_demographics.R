@@ -13,7 +13,7 @@
 #' specified in include_cols
 #' @export
 #'
-#' @examples TODO
+#' @examples #TODO
 add_from_demographics <- function(extracted_info,
                                   demographics,
                                   include_cols,

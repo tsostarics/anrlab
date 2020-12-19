@@ -23,10 +23,26 @@
                               '',
                               colnames(inst_data))
 
-  # Turns out readr can operate on existing data with type_convert so it can
+  # Compose a function call of the form .postprocess_[prefix]()
+  # this may need to come after the type conversion? maybe not though
+  # TODO: actually implement this for the non repeatable instruments
+  # fx_name <- paste0('.preprocess_',inst_prefix)
+  # if(methods::existsFunction(fx_name)){
+  #   inst_data <- do.call(fx_name, args = list(inst_data))
+  # }
+
+  # Turns out readr CAN operate on existing data with type_convert so it can
   # generalize a whole lot better than hard coding everything
   if(verbose)
     readr::type_convert(inst_data)
   else
     suppressMessages(readr::type_convert(inst_data))
+}
+
+.postprocess_demo <- function(inst_data){
+  #rename checkboxes
+}
+
+.postprocess_med <- function(inst_data){
+  #rename checkboxes
 }
