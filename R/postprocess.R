@@ -46,3 +46,7 @@
 .postprocess_med <- function(inst_data){
   #rename checkboxes
 }
+
+.postprocess_nat <- function(inst_data){
+  dplyr::select(inst_data, -subtest)
+}
