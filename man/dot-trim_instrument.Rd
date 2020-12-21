@@ -6,7 +6,7 @@
 \usage{
 .trim_instrument(
   inst,
-  lookup = acnrlab_instruments,
+  lookup = anrlab_instruments,
   record_id_col = "record_id",
   verbose = T
 )

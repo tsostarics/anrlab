@@ -10,15 +10,19 @@
 #' @return A tibble containing the completion status value for each instrument
 #' for every participant in the given report
 #' @export
-#' @examples TODO
-extract_completes <- function(report_data, record_id_col='record_id'){
+#' @examples
+#' TODO
+extract_completes <- function(report_data, record_id_col = "record_id") {
   complete_regex <- paste0(record_id_col, "|(_instance|_complete$)")
   complete_vars <- report_data[grep(complete_regex, colnames(report_data))]
 
-  dplyr::filter(tidyr::pivot_longer(complete_vars,
-                                    cols = contains('_complete'),
-                                    names_to = 'instrument_complete'),
-                !is.na(value))
+  dplyr::filter(
+    tidyr::pivot_longer(complete_vars,
+      cols = contains("_complete"),
+      names_to = "instrument_complete"
+    ),
+    !is.na(value)
+  )
 }
 
 
@@ -37,19 +41,20 @@ extract_completes <- function(report_data, record_id_col='record_id'){
 #'
 #' @return A dataframe with all of the "info" data from each instrument
 #' @export
-#' @examples TODO
+#' @examples
+#' TODO
 extract_info <- function(report_data,
                          lookup = anrlab_instruments,
                          make_uid = T,
-                         record_id_col = 'record_id',
-                         filter_by = 'user'){
+                         record_id_col = "record_id",
+                         filter_by = "user") {
   # get only the record id, instance number, and info columns
   info_regex <- paste0(record_id_col, "|(_instance$)|(_info_)")
   info_cols <- colnames(report_data)[grep(info_regex, colnames(report_data))]
   info_vars <- report_data[info_cols]
 
   # shorten column names for readability
-  info_cols <- gsub('_info_','_',info_cols)
+  info_cols <- gsub("_info_", "_", info_cols)
   colnames(info_vars) <- info_cols
 
   # pivot the instrument information. There will be a lot of NAs so we filter
@@ -58,30 +63,35 @@ extract_info <- function(report_data,
   pivot_cols <- info_cols[grep(info_regex, info_cols, invert = T)]
   output <-
     info_vars %>%
-    tidyr::pivot_longer(cols = all_of(pivot_cols),
-                        names_to = c('instrument_prefix','.value'),
-                        names_pattern = "(.+)_(.+)$") %>%
-    dplyr::filter(!is.na(!!dplyr::sym(filter_by)), !!dplyr::sym(filter_by) != '')
+    tidyr::pivot_longer(
+      cols = all_of(pivot_cols),
+      names_to = c("instrument_prefix", ".value"),
+      names_pattern = "(.+)_(.+)$"
+    ) %>%
+    dplyr::filter(!is.na(!!dplyr::sym(filter_by)), !!dplyr::sym(filter_by) != "")
 
 
-  if(NA %in% output$date){
+  if (NA %in% output$date) {
     warning("There are missing dates, please verify dates are entered in redcap.")
   }
 
-  output <- dplyr::inner_join(output, lookup, by='instrument_prefix')
-  if(make_uid){
+  output <- dplyr::inner_join(output, lookup, by = "instrument_prefix")
+  if (make_uid) {
     output <- dplyr::mutate(output,
-                            uid = paste(!!as.name(record_id_col),
-                                        redcap_repeat_instance,
-                                        instrument_prefix,
-                                        sep="_"),
-                            .before = 1)
+      uid = paste(!!as.name(record_id_col),
+        redcap_repeat_instance,
+        instrument_prefix,
+        sep = "_"
+      ),
+      .before = 1
+    )
   }
-  if(is.character(output$age)){
+  if (is.character(output$age)) {
     output <- dplyr::mutate(output,
-                            age = as.numeric(age),
-                            tsonset = as.numeric(age),
-                            date = as.Date(date))
+      age = as.numeric(age),
+      tsonset = as.numeric(age),
+      date = as.Date(date)
+    )
   }
 
   output

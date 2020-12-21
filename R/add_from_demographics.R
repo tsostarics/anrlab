@@ -13,12 +13,14 @@
 #' specified in include_cols
 #' @export
 #'
-#' @examples #TODO
+#' @examples
+#' # TODO
 add_from_demographics <- function(extracted_info,
                                   demographics,
                                   include_cols,
-                                  record_id_col = 'demo_record_id'){
+                                  record_id_col = "demo_record_id") {
   dplyr::left_join(extracted_info,
-                   select(demographics, all_of(c(include_cols,record_id_col))),
-                   by = record_id_col)
+    select(demographics, all_of(c(include_cols, record_id_col))),
+    by = record_id_col
+  )
 }

@@ -22,39 +22,42 @@
 #' by the filter specification data frame
 #' @export
 #'
-#' @examples TODO
+#' @examples
+#' TODO
 query_subjects <- function(instrument_db,
                            filter_specification,
                            join_info = T,
                            limit_cols = F,
                            include_cols = NA,
-                           record_id_col = 'record_id'){
-
-  if(!'redcap_repeat_instrument' %in% colnames(filter_specification))
-    stop('Column redcap_repeat_instrument not found in filter specification')
+                           record_id_col = "record_id") {
+  if (!"redcap_repeat_instrument" %in% colnames(filter_specification)) {
+    stop("Column redcap_repeat_instrument not found in filter specification")
+  }
 
   # The key columns that we'll join by
-  key_cols <- c(record_id_col,
-                'redcap_repeat_instrument',
-                'redcap_repeat_instance')
+  key_cols <- c(
+    record_id_col,
+    "redcap_repeat_instrument",
+    "redcap_repeat_instance"
+  )
 
   # Check how much info to retain from the filter specification
-  if(join_info){
-    if(limit_cols){
+  if (join_info) {
+    if (limit_cols) {
       # If the user wants to only include particular columns,
       # they have to specify which ones, and they must exist.
       # key_cols always has to be included no matter what.
-      if(anyNA(include_cols)) # anyNA(NA) is TRUE
+      if (anyNA(include_cols)) { # anyNA(NA) is TRUE
         stop("Must provide columns to include, or one of the columns provided is NA")
-      else if(!all(include_cols %in% colnames(filter_specification)))
+      } else if (!all(include_cols %in% colnames(filter_specification))) {
         stop("Column(s) provided are not in the filter specification")
-      else{
+      } else {
         keep_cols <- c(key_cols, include_cols) # Keep specified cols
       }
-    } else{
+    } else {
       keep_cols <- colnames(filter_specification) # Keep all cols
     }
-  } else{
+  } else {
     keep_cols <- key_cols # Keep no additional information
   }
 
@@ -64,18 +67,19 @@ query_subjects <- function(instrument_db,
   spec_names <- unique(filter_specification$redcap_repeat_instrument)
   spec_prefixes <- unique(filter_specification$instrument_prefix)
 
-  output <- purrr::map2(spec_names, spec_prefixes, function(x,y){
+  output <- purrr::map2(spec_names, spec_prefixes, function(x, y) {
     this_inst <-
-      dplyr::filter(filter_specification,
-                    redcap_repeat_instrument == x)[keep_cols] %>%
+      dplyr::filter(
+        filter_specification,
+        redcap_repeat_instrument == x
+      )[keep_cols] %>%
       .verify_datatypes(instrument_db[[y]], key_cols)
 
-    dplyr::inner_join(instrument_db[[y]], this_inst, by=key_cols)
+    dplyr::inner_join(instrument_db[[y]], this_inst, by = key_cols)
   })
 
   # The map results in an unnamed list, so we add the names back in
   purrr::set_names(output, spec_prefixes)
-
 }
 
 #' Verify datatypes before joining info
@@ -90,16 +94,18 @@ query_subjects <- function(instrument_db,
 #'
 #' @return
 #'
-#' @examples TODO
+#' @examples
+#' TODO
 .verify_datatypes <- function(filter_spec,
                               inst_data,
-                              cols){
-  for(col in cols){
+                              cols) {
+  for (col in cols) {
     type_data <- typeof(inst_data[[col]])
     type_spec <- typeof(filter_spec[[col]])
-    if(type_data != type_spec){
-      filter_spec[col] <- do.call(paste0('as.',type_data),
-                                  args=list(this_inst[col]))
+    if (type_data != type_spec) {
+      filter_spec[col] <- do.call(paste0("as.", type_data),
+        args = list(this_inst[col])
+      )
     }
   }
   filter_spec

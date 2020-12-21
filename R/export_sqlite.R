@@ -21,26 +21,29 @@
 #' export_sqlite(db_con, all_instruments)
 #'
 #' # Run a simple query
-#' RSQLite::dbGetQuery(dbcon,"SELECT
+#' RSQLite::dbGetQuery(dbcon, "SELECT
 #'                              wab.*,
 #'                              wabsum.aq
 #'                            FROM wab
 #'                            LEFT JOIN wabsum
 #'                            USING (record_id, redcap_repeat_instance)")
-#'
-export_sqlite <- function(conn, instrument_list, ...){
+export_sqlite <- function(conn, instrument_list, ...) {
   results <-
-    sapply(report_db,
-           function(x)
-             RSQLite::dbWriteTable(conn = conn,
-                                   name = attributes(x)$redcap_instrument,
-                                   value = x,
-                                   ...)
+    sapply(
+      report_db,
+      function(x) {
+        RSQLite::dbWriteTable(
+          conn = conn,
+          name = attributes(x)$redcap_instrument,
+          value = x,
+          ...
+        )
+      }
     )
-  if(!all(results)){
+  if (!all(results)) {
     warning("There was an issue sending one or more instruments to the database, please review.")
     results
-  } else{
+  } else {
     message("All instruments were added to database successfully.")
   }
 }

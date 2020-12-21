@@ -8,20 +8,25 @@
 #'
 #' @return A dataframe with some cleaned up names and datatypes
 #'
-#' @examples TODO
-.postprocess <- function(inst_data, inst_prefix, verbose=T){
+#' @examples
+#' TODO
+.postprocess <- function(inst_data, inst_prefix, verbose = T) {
   # Common .postprocessing that should be done on all instruments
 
   # Change item number and accuracy scores to integers
-  if('number' %in% colnames(inst_data))
+  if ("number" %in% colnames(inst_data)) {
     inst_data$number <- as.integer(inst_data$number)
-  if('acc' %in% colnames(inst_data))
+  }
+  if ("acc" %in% colnames(inst_data)) {
     inst_data$acc <- as.integer(inst_data$acc)
+  }
 
   # Remove instrument prefix from column names for readability
-  colnames(inst_data) <- gsub(paste0(inst_prefix,'_'),
-                              '',
-                              colnames(inst_data))
+  colnames(inst_data) <- gsub(
+    paste0(inst_prefix, "_"),
+    "",
+    colnames(inst_data)
+  )
 
   # Compose a function call of the form .postprocess_[prefix]()
   # this may need to come after the type conversion? maybe not though
@@ -33,20 +38,21 @@
 
   # Turns out readr CAN operate on existing data with type_convert so it can
   # generalize a whole lot better than hard coding everything
-  if(verbose)
+  if (verbose) {
     readr::type_convert(inst_data)
-  else
+  } else {
     suppressMessages(readr::type_convert(inst_data))
+  }
 }
 
-.postprocess_demo <- function(inst_data){
-  #rename checkboxes
+.postprocess_demo <- function(inst_data) {
+  # rename checkboxes
 }
 
-.postprocess_med <- function(inst_data){
-  #rename checkboxes
+.postprocess_med <- function(inst_data) {
+  # rename checkboxes
 }
 
-.postprocess_nat <- function(inst_data){
+.postprocess_nat <- function(inst_data) {
   dplyr::select(inst_data, -subtest)
 }

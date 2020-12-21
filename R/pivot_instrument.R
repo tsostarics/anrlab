@@ -14,22 +14,24 @@
 #'
 #' @return A pivoted instrument
 #'
-#' @examples TODO
+#' @examples
+#' TODO
 .pivot_instrument <- function(instrument,
                               instrument_prefix,
-                              instrument_regex = '_(.+)_(.+)_(.+)$',
-                              output_names = c("subtest","number",".value"),
-                              ...){
+                              instrument_regex = "_(.+)_(.+)_(.+)$",
+                              output_names = c("subtest", "number", ".value"),
+                              ...) {
   inst_pattern <- paste0(instrument_prefix, instrument_regex)
   instrument <- instrument %>%
-    tidyr::pivot_longer(cols=tidyselect::matches(inst_pattern),
-                        names_to = output_names,
-                        names_pattern = inst_pattern,
-                        ...)
+    tidyr::pivot_longer(
+      cols = tidyselect::matches(inst_pattern),
+      names_to = output_names,
+      names_pattern = inst_pattern,
+      ...
+    )
 
   # Set an attribute with the prefix so that we can reference it later
   # when we set the name of each instrument in the list
-  attr(instrument, 'redcap_instrument') <- instrument_prefix
+  attr(instrument, "redcap_instrument") <- instrument_prefix
   instrument
 }
-

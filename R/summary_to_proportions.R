@@ -13,20 +13,21 @@
 #' % correct
 #' @export
 #'
-#' @examples TODO
-summary_to_proportions <- function(inst_data, inst_prefix){
+#' @examples
+#' TODO
+summary_to_proportions <- function(inst_data, inst_prefix) {
   # Convert summary scores to proportion correct (varies depending on section)
 
-  fx_name <- paste0('.',inst_prefix,'_to_proportions')
-  if(methods::existsFunction(fx_name)){
+  fx_name <- paste0(".", inst_prefix, "_to_proportions")
+  if (methods::existsFunction(fx_name)) {
     do.call(fx_name, args = list(inst_data))
-  } else{
+  } else {
     return(inst_data)
   }
 }
 
-.nnbsbtl_to_proportions <- function(inst_data){
+.nnbsbtl_to_proportions <- function(inst_data) {
 }
 
-.nnbtotal_to_proportions <- function(inst_data){
+.nnbtotal_to_proportions <- function(inst_data) {
 }

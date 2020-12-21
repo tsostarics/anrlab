@@ -18,37 +18,43 @@
 #' @return A dataframe ready to be exported to redcap
 #' @export
 #'
-#' @examples TODO
+#' @examples
+#' TODO
 process_cinderella_chat <- function(filepath,
-                                    record_id=NA,
-                                    instance=NA,
-                                    researcher=NA,
-                                    date=NA,
-                                    study=NA,
-                                    timepoint=NA,
-                                    record_id_col = 'demo_record_id',
-                                    inst_name = 'cinderella_narrative_summary'){
+                                    record_id = NA,
+                                    instance = NA,
+                                    researcher = NA,
+                                    date = NA,
+                                    study = NA,
+                                    timepoint = NA,
+                                    record_id_col = "demo_record_id",
+                                    inst_name = "cinderella_narrative_summary") {
 
   # Error handling for missing parameters
-  if(is.na(record_id)) stop("Error: Must provide a record_id")
-  if(is.na(instance))  stop("Error: Must provide an instance number (an integer)")
-  if(!is.na(date))
-    if(grepl("\\d{2}-\\d{2}-\\d{4}"))
+  if (is.na(record_id)) stop("Error: Must provide a record_id")
+  if (is.na(instance)) stop("Error: Must provide an instance number (an integer)")
+  if (!is.na(date)) {
+    if (grepl("\\d{2}-\\d{2}-\\d{4}")) {
       stop("Error: Date provided must be in MM-DD-YYYY format.")
+    }
+  }
 
   # Read in file, handle invalid file extensions
   extension <- stringr::str_extract(filepath, "\\.[[:alnum:]]+$")
-  if(is.na(extension)){
+  if (is.na(extension)) {
     stop("Error: Filepath has no file extension")
-  } else if(extension==".csv"){
+  } else if (extension == ".csv") {
     raw_chat <- read.csv(filepath)
-  } else if(extension == ".xlsx"){
+  } else if (extension == ".xlsx") {
     raw_chat <- readxl::read_xlsx(filepath)
-  } else stop("Error: File must be a .csv or .xlsx file")
+  } else {
+    stop("Error: File must be a .csv or .xlsx file")
+  }
 
   # Hard code the raw column names and the redcap column names
   raw_cols <-
-    c("File",
+    c(
+      "File",
       "Language",
       "Corpus",
       "Code",
@@ -98,9 +104,11 @@ process_cinderella_chat <- function(filepath,
       "% sentences with flawed syntax",
       "% sentences with flawed semantics*",
       "sentence complexity ratio",
-      "# embedded clauses/sentence")
+      "# embedded clauses/sentence"
+    )
   fix_cols <-
-    c("narr_meta_path",
+    c(
+      "narr_meta_path",
       "narr_meta_lang",
       "narr_meta_corpus",
       "narr_meta_code",
@@ -150,21 +158,22 @@ process_cinderella_chat <- function(filepath,
       "narr_flawsyn_pct",
       "narr_flawsem_pct",
       "narr_stat_sentcmplx_ratio",
-      "narr_stat_embcl_ratio")
+      "narr_stat_embcl_ratio"
+    )
   # Keep only the relevant fields
-  output <- raw_chat[,raw_cols]
+  output <- raw_chat[, raw_cols]
 
   # Rename fields to redcap's variable names
   colnames(output) <- fix_cols
 
   # Set the patient and meta data if provided (record_id and instance required)
-  output[record_id_col] = record_id
-  output$redcap_repeat_instance = instance
-  output$redcap_repeat_instrument = inst_name
-  output$narr_info_user = researcher
-  output$narr_info_date = date
-  output$narr_info_study = study
-  output$narr_info_timepoint = timepoint
+  output[record_id_col] <- record_id
+  output$redcap_repeat_instance <- instance
+  output$redcap_repeat_instrument <- inst_name
+  output$narr_info_user <- researcher
+  output$narr_info_date <- date
+  output$narr_info_study <- study
+  output$narr_info_timepoint <- timepoint
 
   return(output)
 }
@@ -182,21 +191,25 @@ process_cinderella_chat <- function(filepath,
 #' into redcap
 #' @export
 #'
-#' @examples TODO
+#' @examples
+#' TODO
 process_multi_cinderella <- function(pathdf,
-                                     researcher=NA,
-                                     record_id_col = 'record_id'){
-  if(colnames(pathdf) != c('filepath','record_id','instance')){
+                                     researcher = NA,
+                                     record_id_col = "record_id") {
+  if (colnames(pathdf) != c("filepath", "record_id", "instance")) {
     stop("Error: Malformed path data frame. Must have columns filepath, record_id, instance")
   }
   data.table::rbindlist(
-    purrr::pmap(pathdf,
-                function(filepath, record_id, instance)
-                  process_cinderella_chat(filepath,
-                                          record_id=record_id,
-                                          instance=instance,
-                                          researcher=researcher,
-                                          record_id_col=record_id_col)
+    purrr::pmap(
+      pathdf,
+      function(filepath, record_id, instance) {
+        process_cinderella_chat(filepath,
+          record_id = record_id,
+          instance = instance,
+          researcher = researcher,
+          record_id_col = record_id_col
+        )
+      }
     )
   )
 }

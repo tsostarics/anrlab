@@ -15,8 +15,9 @@
 #' @return A dataframe with all the instrument names and their prefixes
 #' @export
 #'
-#' @examples TODO
-generate_new_lookup <- function(redcap_uri, redcap_token){
+#' @examples
+#' TODO
+generate_new_lookup <- function(redcap_uri, redcap_token) {
   # Get data dictionary
   inst_lookup <-
     dplyr::select(
@@ -28,15 +29,18 @@ generate_new_lookup <- function(redcap_uri, redcap_token){
   # Get instrument names, prefixes, and field names
   inst_lookup <-
     dplyr::group_by(inst_lookup, instrument_name) %>%
-    dplyr::summarize(instrument_prefix =
-                       # Using last will ignore the record id
-                       stringr::str_extract(dplyr::last(field_name),
-                                            "^[[:alnum:]]+"),
-                     fields = list(field_name))
+    dplyr::summarize(
+      instrument_prefix =
+        # Using last will ignore the record id
+      stringr::str_extract(
+        dplyr::last(field_name),
+        "^[[:alnum:]]+"
+      ),
+      fields = list(field_name)
+    )
 
   # Set which instruments are repeating instruments
   repeating_insts <- get_repeating(uri, tkn)$form_name
   inst_lookup$is_repeating <- inst_lookup$instrument_name %in% repeating_insts
   inst_lookup
 }
-

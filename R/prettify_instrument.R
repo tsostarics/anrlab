@@ -11,16 +11,17 @@
 #' to make them easier to read
 #' @export
 #'
-#' @examples TODO
-prettify_instrument <- function(inst_data, inst_prefix){
-  fx_name <- paste0('.prettify_',inst_prefix)
-  if(existsFunction(fx_name)){
+#' @examples
+#' TODO
+prettify_instrument <- function(inst_data, inst_prefix) {
+  fx_name <- paste0(".prettify_", inst_prefix)
+  if (existsFunction(fx_name)) {
     do.call(fx_name, args = list(inst_data))
-  } else{
+  } else {
     return(inst_data)
   }
 }
 
-.prettify_nnbsbtl <- function(inst_data){
+.prettify_nnbsbtl <- function(inst_data) {
   # Rename columns for nnb subtotal column
 }
