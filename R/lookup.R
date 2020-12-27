@@ -9,14 +9,12 @@
 #'
 #' @param redcap_uri Redcap user API URI
 #' @param redcap_token Redcap user API token
-#' @param ignore Any prefixes to ignore, really just here to ignore 'record_id'
-#' in the list of prefixes.
 #'
 #' @return A dataframe with all the instrument names and their prefixes
 #' @export
 #'
 #' @examples
-#' TODO
+#' #TODO
 generate_new_lookup <- function(redcap_uri, redcap_token) {
   # Get data dictionary
   inst_lookup <-

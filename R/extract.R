@@ -11,14 +11,14 @@
 #' for every participant in the given report
 #' @export
 #' @examples
-#' TODO
+#' #TODO
 extract_completes <- function(report_data, record_id_col = "record_id") {
   complete_regex <- paste0(record_id_col, "|(_instance|_complete$)")
   complete_vars <- report_data[grep(complete_regex, colnames(report_data))]
 
   dplyr::filter(
     tidyr::pivot_longer(complete_vars,
-      cols = contains("_complete"),
+      cols = tidyselect::contains("_complete"),
       names_to = "instrument_complete"
     ),
     !is.na(value)
@@ -42,7 +42,7 @@ extract_completes <- function(report_data, record_id_col = "record_id") {
 #' @return A dataframe with all of the "info" data from each instrument
 #' @export
 #' @examples
-#' TODO
+#' #TODO
 extract_info <- function(report_data,
                          lookup = anrlab_instruments,
                          make_uid = T,
@@ -64,7 +64,7 @@ extract_info <- function(report_data,
   output <-
     info_vars %>%
     tidyr::pivot_longer(
-      cols = all_of(pivot_cols),
+      cols = tidyselect::all_of(pivot_cols),
       names_to = c("instrument_prefix", ".value"),
       names_pattern = "(.+)_(.+)$"
     ) %>%

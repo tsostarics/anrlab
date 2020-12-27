@@ -11,6 +11,8 @@ export_sqlite(conn, instrument_list, ...)
 
 \item{instrument_list}{A list of instruments, either from split_instruments()
 or query_subjects() (but you probably want the full data from the former)}
+
+\item{...}{Other options to pass to dbWriteTable}
 }
 \value{
 Nothing, will display a message if successful
@@ -23,18 +25,17 @@ wrapper for lapply to add all the instruments at once.
 \examples{
 
 # Set up instruments and database
-all_instruments <- split_instruments(report, lookup)
-db_con <- RSQLite::dbConnect(RSQLite::SQLite(), ":memory:")
+# all_instruments <- split_instruments(report, lookup)
+# db_con <- RSQLite::dbConnect(RSQLite::SQLite(), ":memory:")
 
 # Send all instruments to database connection
-export_sqlite(db_con, all_instruments)
+# export_sqlite(db_con, all_instruments)
 
 # Run a simple query
-RSQLite::dbGetQuery(dbcon,"SELECT
-                             wab.*,
-                             wabsum.aq
-                           FROM wab
-                           LEFT JOIN wabsum
-                           USING (record_id, redcap_repeat_instance)")
-
+# RSQLite::dbGetQuery(dbcon, "SELECT
+#                              wab.*,
+#                              wabsum.aq
+#                            FROM wab
+#                            LEFT JOIN wabsum
+#                            USING (record_id, redcap_repeat_instance)")
 }

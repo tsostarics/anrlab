@@ -4,12 +4,13 @@
 #' this means converting datatypes from character to numeric.
 #'
 #' @param inst_data One instrument's data
-#' @param inst_prefix Instrument's prefix
+#' @param inst_prefix Character, instrument's prefix
+#' @param verbose Logical, defaults to True, inherits from split_instruments
 #'
 #' @return A dataframe with some cleaned up names and datatypes
 #'
 #' @examples
-#' TODO
+#' #TODO
 .postprocess <- function(inst_data, inst_prefix, verbose = T) {
   # Common .postprocessing that should be done on all instruments
 

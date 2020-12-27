@@ -21,6 +21,3 @@ into redcap
 Given a dataframe with filepaths and metadata, use it to process multiple
 narrative samples. This will convert all files into Redcap-readable form.
 }
-\examples{
-TODO
-}

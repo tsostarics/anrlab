@@ -12,7 +12,7 @@
 #'
 #' @return Smaller dataframe that's pivoted to long form and postprocessed
 #' @examples
-#' TODO
+#' #TODO
 .trim_instrument <- function(inst,
                              lookup = anrlab_instruments,
                              record_id_col = "record_id",

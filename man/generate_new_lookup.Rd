@@ -10,9 +10,6 @@ generate_new_lookup(redcap_uri, redcap_token)
 \item{redcap_uri}{Redcap user API URI}
 
 \item{redcap_token}{Redcap user API token}
-
-\item{ignore}{Any prefixes to ignore, really just here to ignore 'record_id'
-in the list of prefixes.}
 }
 \value{
 A dataframe with all the instrument names and their prefixes
@@ -25,5 +22,5 @@ to instruments or new instruments are added. This shouldn't happen frequently
 once a project is moved to production mode.
 }
 \examples{
-TODO
+#TODO
 }

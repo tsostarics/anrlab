@@ -8,7 +8,7 @@ add_from_demographics(
   extracted_info,
   demographics,
   include_cols,
-  record_id_col = "demo_record_id"
+  record_id_col = "record_id"
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ add_from_demographics(
 
 \item{include_cols}{Which columns to add to the info table}
 
-\item{record_id_col}{}
+\item{record_id_col}{Defaults to record_id}
 }
 \value{
 The extracted_info dataframe with the columns from demographics
@@ -30,5 +30,5 @@ knowledge of SQL-esque joins to simply take information from the demographics
 table (such as subject ID or aphasia status) and add it to the info table.
 }
 \examples{
-#TODO
+# TODO
 }

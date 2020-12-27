@@ -22,6 +22,3 @@ A tibble representation of the specified redcap report
 \description{
 Get Redcap Report
 }
-\examples{
-TODO
-}

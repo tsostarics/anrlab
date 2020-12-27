@@ -23,7 +23,7 @@
 #' @export
 #'
 #' @examples
-#' TODO
+#' # TODO
 query_subjects <- function(instrument_db,
                            filter_specification,
                            join_info = T,
@@ -92,10 +92,7 @@ query_subjects <- function(instrument_db,
 #' @param inst_data Data of one instrument
 #' @param cols Columns to verify
 #'
-#' @return
-#'
-#' @examples
-#' TODO
+#' @return Checked filer specification
 .verify_datatypes <- function(filter_spec,
                               inst_data,
                               cols) {

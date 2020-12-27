@@ -7,7 +7,7 @@
 #' @param extracted_info Output of extract_info
 #' @param demographics Demographics table from split_instruments
 #' @param include_cols Which columns to add to the info table
-#' @param record_id_col
+#' @param record_id_col Defaults to record_id
 #'
 #' @return The extracted_info dataframe with the columns from demographics
 #' specified in include_cols
@@ -18,9 +18,10 @@
 add_from_demographics <- function(extracted_info,
                                   demographics,
                                   include_cols,
-                                  record_id_col = "demo_record_id") {
+                                  record_id_col = "record_id") {
   dplyr::left_join(extracted_info,
-    select(demographics, all_of(c(include_cols, record_id_col))),
+    dplyr::select(demographics,
+                  tidyselect::all_of(c(include_cols, record_id_col))),
     by = record_id_col
   )
 }

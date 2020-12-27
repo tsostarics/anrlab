@@ -44,6 +44,3 @@ Takes the output from CHAT for a narrative sample and converts it into a form
 that can be directly read into Redcap. This can be done through an API write
 call or through uploading it manually.
 }
-\examples{
-TODO
-}

@@ -14,7 +14,7 @@
 #' @return List of dataframes, named according to instrument prefix
 #' @export
 #' @examples
-#' TODO
+#' #TODO
 split_instruments <- function(report_data,
                               lookup = anrlab_instruments,
                               record_id_col = "record_id",

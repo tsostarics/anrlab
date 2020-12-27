@@ -9,7 +9,9 @@
 \arguments{
 \item{inst_data}{One instrument's data}
 
-\item{inst_prefix}{Instrument's prefix}
+\item{inst_prefix}{Character, instrument's prefix}
+
+\item{verbose}{Logical, defaults to True, inherits from split_instruments}
 }
 \value{
 A dataframe with some cleaned up names and datatypes
@@ -19,5 +21,5 @@ After pivoting an instrument, some postprocessing needs to be done. Usually
 this means converting datatypes from character to numeric.
 }
 \examples{
-TODO
+#TODO
 }

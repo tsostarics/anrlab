@@ -17,9 +17,6 @@
 #'
 #' @return A dataframe ready to be exported to redcap
 #' @export
-#'
-#' @examples
-#' TODO
 process_cinderella_chat <- function(filepath,
                                     record_id = NA,
                                     instance = NA,
@@ -44,7 +41,7 @@ process_cinderella_chat <- function(filepath,
   if (is.na(extension)) {
     stop("Error: Filepath has no file extension")
   } else if (extension == ".csv") {
-    raw_chat <- read.csv(filepath)
+    raw_chat <- utils::read.csv(filepath)
   } else if (extension == ".xlsx") {
     raw_chat <- readxl::read_xlsx(filepath)
   } else {
@@ -190,9 +187,6 @@ process_cinderella_chat <- function(filepath,
 #' @return A dataframe with multiple narrative samples ready to be imported
 #' into redcap
 #' @export
-#'
-#' @examples
-#' TODO
 process_multi_cinderella <- function(pathdf,
                                      researcher = NA,
                                      record_id_col = "record_id") {
