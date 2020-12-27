@@ -24,6 +24,15 @@ Imports:
     methods,
     stats,
     utils,
-    tibble
+    tibble,
+    purrr,
+    readr,
+    stringr,
+    tidyr,
+    tidyselect
 Depends: 
     R (>= 2.10)
+Suggests: 
+    REDCapR,
+    RSQLite,
+    readxl

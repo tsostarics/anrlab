@@ -2,6 +2,7 @@
 # anrlab
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/tsostarics/anrlab/workflows/R-CMD-check/badge.svg)](https://github.com/tsostarics/anrlab/actions)
 <!-- badges: end -->
 
 The goal of `anrlab` is to provide utilities for lab members to work with data 
