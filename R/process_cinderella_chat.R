@@ -20,7 +20,8 @@
 process_cinderella_chat <- function(filepath,
                                     record_id = NA,
                                     instance = NA,
-                                    researcher = NA,
+                                    entry = NA,
+                                    administrator = NA,
                                     date = NA,
                                     study = NA,
                                     timepoint = NA,
@@ -167,7 +168,8 @@ process_cinderella_chat <- function(filepath,
   output[record_id_col] <- record_id
   output$redcap_repeat_instance <- instance
   output$redcap_repeat_instrument <- inst_name
-  output$narr_info_user <- researcher
+  output$narr_info_user <- entry
+  output$narr_info_admin <- administrator
   output$narr_info_date <- date
   output$narr_info_study <- study
   output$narr_info_timepoint <- timepoint
