@@ -94,5 +94,5 @@ extract_info <- function(report_data,
     )
   }
 
-  output
+  dplyr::rename(output, redcap_repeat_instrument = instrument_name)
 }
