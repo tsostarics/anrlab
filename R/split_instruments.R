@@ -31,45 +31,19 @@ split_instruments <- function(report_data,
   # Group by instrument, split, then trim each instrument
   report_data <- dplyr::group_by(report_data, redcap_repeat_instrument)
   inst_data_list <- dplyr::group_split(report_data)
-  inst_data_list <- purrr::map(
-    inst_data_list,
-    function(x) {
-      .trim_instrument(
-        x,
-        lookup,
-        record_id_col,
-        verbose
+  inst_data_list <-
+    rlang::squash(
+      purrr::map(
+        inst_data_list,
+        function(x) .trim_instrument(x, lookup, record_id_col, verbose)
       )
-    }
-  )
-  # Currently we have a structure of list(list(x,y),z) and i need list(x,y,z)
-  # Even though this is using a for loop, I'm not growing or copying the main
-  # list, I'm just adding pointers to the end of the list to data that already
-  # exists, then removing any pointers that need to be removed.
-  last_inst <- length(inst_data_list)
-  to_remove <- c()
-  for (index in 1:last_inst) {
-    # print(paste0(index,": ", lobstr::obj_addr(inst_data_list[[index]])))
-
-    if (class(inst_data_list[[index]])[1L] == "list") {
-      # This is a list within the list, so we'll have to remove that later
-      to_remove <- c(index, to_remove)
-      for (sublist in inst_data_list[[index]]) {
-        # Add a pointer to the end of the list
-        last_inst <- last_inst + 1
-        inst_data_list[[last_inst]] <- sublist
-      }
-    }
-  }
-
-  for (index in to_remove) {
-    inst_data_list[[index]] <- NULL
-  }
+    )
 
   # Extract names stored in the attribute of each instrument data frame
-  inst_names <- sapply(
+  inst_names <- vapply(
     inst_data_list,
-    function(x) attributes(x)$redcap_instrument
+    FUN = function(x) attributes(x)$redcap_instrument,
+    FUN.VALUE = 'character'
   )
 
   # Return list of all the data for each instrument, named according to prefix
