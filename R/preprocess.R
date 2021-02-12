@@ -25,7 +25,7 @@
     inline_sums <- "_subtotals|_totals|_score|_scores|_analysis"
     inst_data <- inst_data[grep(inline_sums, colnames(inst_data), invert = T)]
   }
-  unneeded_cols <- "(^consent)|(_complete$)|_info_"
+  unneeded_cols <- "(^consent)|(_complete$)|_info_|_override"
   inst_data <- inst_data[grep(unneeded_cols, colnames(inst_data), invert = T)]
 
   if (methods::existsFunction(fx_name)) {
@@ -156,6 +156,36 @@
         last_num == "12" ~ paste0(col_item, "_DK")
       )
     } else {
+      column
+    }
+  }
+  # Rename checkbox columns
+  colnames(inst_data) <- sapply(new_cols, rename_checkboxes, USE.NAMES = F)
+  inst_data
+}
+
+.preprocess_navs <- function(inst_data) {
+  # wab_obn_x_cues___1/2/3 should be Tactile, phonemic, Semantic
+  # wab_ynq_x_acc___1/2/3/4/5 should be acc, verbal, gestural, eye blink, NR
+  new_cols <- colnames(inst_data)
+
+  rename_checkboxes <- function(column) {
+    if (grepl("___", column)){
+      last_num <- stringr::str_extract(column, ".$")
+      if (grepl("args_", column))
+        dplyr::case_when(
+          last_num == "1" ~ gsub("___.$", "_x", column),
+          last_num == "2" ~ gsub("___.$", "_V", column),
+          last_num == "3" ~ gsub("___.$", "_y", column),
+          last_num == "4" ~ gsub("___.$", "_z", column),
+        )
+      else
+        dplyr::case_when(
+          last_num == "1" ~ gsub("___.$", "_A", column),
+          last_num == "2" ~ gsub("___.$", "_W", column)
+        )
+    }
+    else{
       column
     }
   }
