@@ -30,7 +30,7 @@
 #' #                            USING (record_id, redcap_repeat_instance)")
 export_sqlite <- function(conn, instrument_list, ...) {
   results <-
-    sapply(
+    vapply(
       report_db,
       function(x) {
         RSQLite::dbWriteTable(
@@ -39,7 +39,8 @@ export_sqlite <- function(conn, instrument_list, ...) {
           value = x,
           ...
         )
-      }
+      },
+      TRUE
     )
   if (!all(results)) {
     warning("There was an issue sending one or more instruments to the database, please review.")

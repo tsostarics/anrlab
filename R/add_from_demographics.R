@@ -12,9 +12,6 @@
 #' @return The extracted_info dataframe with the columns from demographics
 #' specified in include_cols
 #' @export
-#'
-#' @examples
-#' # TODO
 add_from_demographics <- function(extracted_info,
                                   demographics,
                                   include_cols,

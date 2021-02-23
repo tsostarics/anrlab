@@ -21,9 +21,6 @@
 #' @return A list of instruments filtered according to the records provided
 #' by the filter specification data frame
 #' @export
-#'
-#' @examples
-#' # TODO
 query_subjects <- function(instrument_db,
                            filter_specification,
                            join_info = T,

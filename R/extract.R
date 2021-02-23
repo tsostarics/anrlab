@@ -41,8 +41,6 @@ extract_completes <- function(report_data, record_id_col = "record_id") {
 #'
 #' @return A dataframe with all of the "info" data from each instrument
 #' @export
-#' @examples
-#' #TODO
 extract_info <- function(report_data,
                          lookup = anrlab_instruments,
                          make_uid = T,

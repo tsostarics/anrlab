@@ -12,9 +12,6 @@
 #'
 #' @return A dataframe with all the instrument names and their prefixes
 #' @export
-#'
-#' @examples
-#' #TODO
 generate_new_lookup <- function(redcap_uri, redcap_token) {
   # Get data dictionary
   inst_lookup <-

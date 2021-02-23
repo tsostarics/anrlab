@@ -11,8 +11,6 @@
 #' of each instrument as it's processing it. Useful for debugging.
 #'
 #' @return Smaller dataframe that's pivoted to long form and postprocessed
-#' @examples
-#' #TODO
 .trim_instrument <- function(inst,
                              lookup = anrlab_instruments,
                              record_id_col = "record_id",

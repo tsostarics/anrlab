@@ -10,9 +10,6 @@
 #' @return The instrument data frame but with various things manually renamed
 #' to make them easier to read
 #' @export
-#'
-#' @examples
-#' # TODO
 prettify_instrument <- function(inst_data, inst_prefix) {
   fx_name <- paste0(".prettify_", inst_prefix)
   if (methods::existsFunction(fx_name)) {

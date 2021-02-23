@@ -8,9 +8,6 @@
 #' @param verbose Logical, defaults to True, inherits from split_instruments
 #'
 #' @return A dataframe with some cleaned up names and datatypes
-#'
-#' @examples
-#' #TODO
 .postprocess <- function(inst_data, inst_prefix, verbose = T) {
   # Common .postprocessing that should be done on all instruments
   # Change item number and accuracy scores to integers

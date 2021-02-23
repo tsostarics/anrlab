@@ -63,7 +63,7 @@
     }
   }
   # Rename checkbox columns
-  colnames(inst_data) <- sapply(new_cols, rename_checkboxes, USE.NAMES = F)
+  colnames(inst_data) <- vapply(new_cols, rename_checkboxes, "char")
 
   # Omit wf_resp and any scores (they're entered by the experimenter but
   # really only used in the wab summary scores instrument)
@@ -99,7 +99,7 @@
     }
   }
   # Rename checkbox columns
-  colnames(inst_data) <- sapply(new_cols, rename_checkboxes, USE.NAMES = F)
+  colnames(inst_data) <- vapply(new_cols, rename_checkboxes, "char")
   inst_data
 }
 
@@ -120,7 +120,7 @@
     }
   }
   # Rename checkbox columns
-  colnames(inst_data) <- sapply(new_cols, rename_checkboxes, USE.NAMES = F)
+  colnames(inst_data) <- vapply(new_cols, rename_checkboxes, "char")
   inst_data
 }
 
@@ -158,7 +158,7 @@
     }
   }
   # Rename checkbox columns
-  colnames(inst_data) <- sapply(new_cols, rename_checkboxes, USE.NAMES = F)
+  colnames(inst_data) <- vapply(new_cols, rename_checkboxes, "char")
   inst_data
 }
 
@@ -189,7 +189,7 @@
   }
 
   # Rename checkbox columns
-  colnames(inst_data) <- sapply(new_cols, rename_checkboxes, USE.NAMES = F)
+  colnames(inst_data) <- vapply(new_cols, rename_checkboxes, "char")
   inst_data
 }
 

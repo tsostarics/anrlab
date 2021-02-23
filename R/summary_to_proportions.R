@@ -12,9 +12,6 @@
 #' @return The instrument but with raw # correct converted to the appropriate
 #' % correct
 #' @export
-#'
-#' @examples
-#' # TODO
 summary_to_proportions <- function(inst_data, inst_prefix) {
   # Convert summary scores to proportion correct (varies depending on section)
 
