@@ -15,7 +15,7 @@
 #' @return A pivoted instrument
 #'
 #' @examples
-#' #TODO
+#' # TODO
 .pivot_instrument <- function(instrument,
                               instrument_prefix,
                               instrument_regex = "_(.+)_(.+)_(.+)$",

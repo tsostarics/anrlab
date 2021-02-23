@@ -168,22 +168,23 @@
   new_cols <- colnames(inst_data)
 
   rename_checkboxes <- function(column) {
-    if (grepl("___", column)){
+    if (grepl("___", column)) {
       last_num <- stringr::str_extract(column, ".$")
-      if (grepl("args_", column))
+      if (grepl("args_", column)) {
         dplyr::case_when(
           last_num == "1" ~ gsub("args___.$", "x", column),
           last_num == "2" ~ gsub("args___.$", "V", column),
           last_num == "3" ~ gsub("args___.$", "y", column),
           last_num == "4" ~ gsub("args___.$", "z", column),
         )
-      else
+      } else {
         dplyr::case_when(
           last_num == "1" ~ gsub("aw___.$", "A", column),
           last_num == "2" ~ gsub("aw___.$", "W", column)
         )
+      }
     }
-    else{
+    else {
       column
     }
   }
@@ -195,12 +196,12 @@
 
 .preprocess_asha <- function(inst_data) {
   # Procesing the checkbox at the end of the form
-  inst_data[['asha_sources_1_choice___1']] <- ifelse(inst_data[['asha_sources_1_choice___1']] == 1, "Family", NA)
-  inst_data[['asha_sources_1_choice___2']] <- ifelse(inst_data[['asha_sources_1_choice___2']] == 1, "Staff", NA)
-  inst_data[['asha_sources_1_choice']] <- paste0(inst_data[['asha_sources_1_choice___1']], inst_data[['asha_sources_1_choice___2']])
-  inst_data[['asha_sources_1_choice']] <- ifelse(inst_data[['asha_sources_1_choice']] == "FamilyStaff", "Both", inst_data[['asha_sources_1_choice']])
-  inst_data[['asha_sources_1_choice___1']] <- NULL
-  inst_data[['asha_sources_1_choice___2']] <- NULL
+  inst_data[["asha_sources_1_choice___1"]] <- ifelse(inst_data[["asha_sources_1_choice___1"]] == 1, "Family", NA)
+  inst_data[["asha_sources_1_choice___2"]] <- ifelse(inst_data[["asha_sources_1_choice___2"]] == 1, "Staff", NA)
+  inst_data[["asha_sources_1_choice"]] <- paste0(inst_data[["asha_sources_1_choice___1"]], inst_data[["asha_sources_1_choice___2"]])
+  inst_data[["asha_sources_1_choice"]] <- ifelse(inst_data[["asha_sources_1_choice"]] == "FamilyStaff", "Both", inst_data[["asha_sources_1_choice"]])
+  inst_data[["asha_sources_1_choice___1"]] <- NULL
+  inst_data[["asha_sources_1_choice___2"]] <- NULL
 
   inst_data
 }

@@ -16,7 +16,7 @@ generate_new_lookup <- function(redcap_uri, redcap_token) {
   # Get data dictionary
   inst_lookup <-
     dplyr::select(
-      REDCapR::redcap_metadata_read(redcap_uri, redcap_token)[['data']],
+      REDCapR::redcap_metadata_read(redcap_uri, redcap_token)[["data"]],
       instrument_name = form_name,
       field_name
     )
@@ -35,7 +35,7 @@ generate_new_lookup <- function(redcap_uri, redcap_token) {
     )
 
   # Set which instruments are repeating instruments
-  repeating_insts <- get_repeating(uri, tkn)[['form_name']]
-  inst_lookup[['is_repeating']] <- inst_lookup[['instrument_name']] %in% repeating_insts
+  repeating_insts <- get_repeating(uri, tkn)[["form_name"]]
+  inst_lookup[["is_repeating"]] <- inst_lookup[["instrument_name"]] %in% repeating_insts
   inst_lookup
 }

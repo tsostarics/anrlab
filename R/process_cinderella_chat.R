@@ -167,13 +167,13 @@ process_cinderella_chat <- function(filepath,
 
   # Set the patient and meta data if provided (record_id and instance required)
   output[[record_id_col]] <- record_id
-  output[['redcap_repeat_instance']] <- instance
-  output[['redcap_repeat_instrument']] <- inst_name
-  output[['narr_info_user']] <- entry
-  output[['narr_info_admin']] <- administrator
-  output[['narr_info_date']] <- date
-  output[['narr_info_study']] <- study
-  output[['narr_info_timepoint']] <- timepoint
+  output[["redcap_repeat_instance"]] <- instance
+  output[["redcap_repeat_instrument"]] <- inst_name
+  output[["narr_info_user"]] <- entry
+  output[["narr_info_admin"]] <- administrator
+  output[["narr_info_date"]] <- date
+  output[["narr_info_study"]] <- study
+  output[["narr_info_timepoint"]] <- timepoint
 
   return(output)
 }

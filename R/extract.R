@@ -11,7 +11,7 @@
 #' for every participant in the given report
 #' @export
 #' @examples
-#' #TODO
+#' # TODO
 extract_completes <- function(report_data, record_id_col = "record_id") {
   complete_regex <- paste0(record_id_col, "|(_instance|_complete$)")
   complete_vars <- report_data[grep(complete_regex, colnames(report_data))]
