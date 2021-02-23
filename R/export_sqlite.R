@@ -35,7 +35,7 @@ export_sqlite <- function(conn, instrument_list, ...) {
       function(x) {
         RSQLite::dbWriteTable(
           conn = conn,
-          name = attributes(x)$redcap_instrument,
+          name = attributes(x)[["redcap_instrument"]],
           value = x,
           ...
         )

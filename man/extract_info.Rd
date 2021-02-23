@@ -31,6 +31,3 @@ Extract the information from the top of each instrument such as age & tsonset.
 This is valuable to filter which records you actually want, then you
 can filter each instrument via joining operations
 }
-\examples{
-#TODO
-}

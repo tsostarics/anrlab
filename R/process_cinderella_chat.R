@@ -8,12 +8,13 @@
 #' @param record_id Character or Numeric, Record ID for this participant
 #' @param instance Character or Numeric, Instance number for this participant's
 #' narrative sample
-#' @param researcher Character, Researcher NetID
 #' @param date Character, Date of the sample in MM-DD-YYYY format
 #' @param study Character, Which study is this sample for?
 #' @param timepoint Character, Which timepoint of the study is this sample for?
 #' @param record_id_col Defaults to record_id
 #' @param inst_name Defaults to cinderella_narrative_summary
+#' @param entry Person doing data entry
+#' @param administrator Character, researcher NetID
 #'
 #' @return A dataframe ready to be exported to redcap
 #' @export
@@ -165,14 +166,14 @@ process_cinderella_chat <- function(filepath,
   colnames(output) <- fix_cols
 
   # Set the patient and meta data if provided (record_id and instance required)
-  output[record_id_col] <- record_id
-  output$redcap_repeat_instance <- instance
-  output$redcap_repeat_instrument <- inst_name
-  output$narr_info_user <- entry
-  output$narr_info_admin <- administrator
-  output$narr_info_date <- date
-  output$narr_info_study <- study
-  output$narr_info_timepoint <- timepoint
+  output[[record_id_col]] <- record_id
+  output[['redcap_repeat_instance']] <- instance
+  output[['redcap_repeat_instrument']] <- inst_name
+  output[['narr_info_user']] <- entry
+  output[['narr_info_admin']] <- administrator
+  output[['narr_info_date']] <- date
+  output[['narr_info_study']] <- study
+  output[['narr_info_timepoint']] <- timepoint
 
   return(output)
 }
@@ -183,14 +184,16 @@ process_cinderella_chat <- function(filepath,
 #' narrative samples. This will convert all files into Redcap-readable form.
 #'
 #' @param pathdf A dataframe with the filepaths and relevant metadata
-#' @param researcher Character, researcher NetID
 #' @param record_id_col Defaults to record_id
+#' @param administrator Character, researcher NetID
+#' @param entry Person doing data entry
 #'
 #' @return A dataframe with multiple narrative samples ready to be imported
 #' into redcap
 #' @export
 process_multi_cinderella <- function(pathdf,
-                                     researcher = NA,
+                                     entry = NA,
+                                     administrator = NA,
                                      record_id_col = "record_id") {
   if (colnames(pathdf) != c("filepath", "record_id", "instance")) {
     stop("Error: Malformed path data frame. Must have columns filepath, record_id, instance")
@@ -201,8 +204,9 @@ process_multi_cinderella <- function(pathdf,
       function(filepath, record_id, instance) {
         process_cinderella_chat(filepath,
           record_id = record_id,
+          entry = entry,
           instance = instance,
-          researcher = researcher,
+          administrator = administrator,
           record_id_col = record_id_col
         )
       }

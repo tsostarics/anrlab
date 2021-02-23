@@ -61,8 +61,8 @@ query_subjects <- function(instrument_db,
   # Not all instruments in the db will be in the filter specification,
   # so we get the instrument names to join by, and the prefixes give
   # the named indices for the db
-  spec_names <- unique(filter_specification$redcap_repeat_instrument)
-  spec_prefixes <- unique(filter_specification$instrument_prefix)
+  spec_names <- unique(filter_specification[['redcap_repeat_instrument']])
+  spec_prefixes <- unique(filter_specification[['instrument_prefix']])
 
   output <- purrr::map2(spec_names, spec_prefixes, function(x, y) {
     this_inst <-

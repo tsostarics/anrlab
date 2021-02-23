@@ -194,14 +194,11 @@
 }
 
 .preprocess_asha <- function(inst_data) {
-  inst_data <-
-    mutate(inst_data,
-           asha_sources_1_choice___1 = ifelse(asha_sources_1_choice___1 == 1, "Family", NA),
-           asha_sources_1_choice___2 = ifelse(asha_sources_1_choice___2 == 1, "Staff", NA),
-           asha_sources_1_choice = paste0(asha_sources_1_choice___1, asha_sources_1_choice___2),
-           asha_sources_1_choice = ifelse(asha_sources_1_choice == "FamilyStaff", "Both", asha_sources_1_choice)
-    )
-
+  # Procesing the checkbox at the end of the form
+  inst_data[['asha_sources_1_choice___1']] <- ifelse(inst_data[['asha_sources_1_choice___1']] == 1, "Family", NA)
+  inst_data[['asha_sources_1_choice___2']] <- ifelse(inst_data[['asha_sources_1_choice___2']] == 1, "Staff", NA)
+  inst_data[['asha_sources_1_choice']] <- paste0(inst_data[['asha_sources_1_choice___1']], inst_data[['asha_sources_1_choice___2']])
+  inst_data[['asha_sources_1_choice']] <- ifelse(inst_data[['asha_sources_1_choice']] == "FamilyStaff", "Both", inst_data[['asha_sources_1_choice']])
   inst_data[['asha_sources_1_choice___1']] <- NULL
   inst_data[['asha_sources_1_choice___2']] <- NULL
 

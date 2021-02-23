@@ -42,6 +42,3 @@ split_instruments. This lets us avoid having to utilize apply or map
 functions to apply a particular filter like "Only the Project A patients
 at baseline."
 }
-\examples{
-# TODO
-}

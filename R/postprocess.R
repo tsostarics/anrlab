@@ -43,7 +43,7 @@
 }
 
 .postprocess_navs <- function(inst_data) {
-  dplyr::relocate(inst_data, z, .before = A)
+  dplyr::relocate(inst_data, "z", .before = "A")
 }
 
 .postprocess_demo <- function(inst_data) {

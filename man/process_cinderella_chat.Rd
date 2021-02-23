@@ -8,7 +8,8 @@ process_cinderella_chat(
   filepath,
   record_id = NA,
   instance = NA,
-  researcher = NA,
+  entry = NA,
+  administrator = NA,
   date = NA,
   study = NA,
   timepoint = NA,
@@ -24,7 +25,9 @@ process_cinderella_chat(
 \item{instance}{Character or Numeric, Instance number for this participant's
 narrative sample}
 
-\item{researcher}{Character, Researcher NetID}
+\item{entry}{Person doing data entry}
+
+\item{administrator}{Character, researcher NetID}
 
 \item{date}{Character, Date of the sample in MM-DD-YYYY format}
 

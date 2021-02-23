@@ -4,12 +4,19 @@
 \alias{process_multi_cinderella}
 \title{Process Multiple Cinderella Narratives}
 \usage{
-process_multi_cinderella(pathdf, researcher = NA, record_id_col = "record_id")
+process_multi_cinderella(
+  pathdf,
+  entry = NA,
+  administrator = NA,
+  record_id_col = "record_id"
+)
 }
 \arguments{
 \item{pathdf}{A dataframe with the filepaths and relevant metadata}
 
-\item{researcher}{Character, researcher NetID}
+\item{entry}{Person doing data entry}
+
+\item{administrator}{Character, researcher NetID}
 
 \item{record_id_col}{Defaults to record_id}
 }

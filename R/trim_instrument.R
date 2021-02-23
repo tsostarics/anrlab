@@ -16,7 +16,7 @@
                              record_id_col = "record_id",
                              verbose = T) {
   # Get the name and prefix of the instrument
-  inst_name <- inst$redcap_repeat_instrument[1L]
+  inst_name <- inst[["redcap_repeat_instrument"]][1L]
   redcap_cols <- c(
     record_id_col,
     "redcap_repeat_instrument",
@@ -34,27 +34,27 @@
   if (inst_name == "" | is.na(inst_name)) {
     # Access our list of non repeating instruments
     non_repeating_insts <-
-      dplyr::group_by(lookup[!lookup$is_repeating, ], instrument_name) %>%
+      dplyr::group_by(lookup[!lookup[["is_repeating"]], ], instrument_name) %>%
       dplyr::group_split()
 
     # For each non repeating instrument, get the relevant columns
     # This results in multiple dataframes, so we return the list of inst data
     return(
       purrr::map(non_repeating_insts, function(x) {
-        select_cols <- x$fields[[1L]]
+        select_cols <- x[["fields"]][[1L]]
         select_cols <- c(redcap_cols, select_cols)
         nr_inst <- dplyr::select(inst, tidyselect::contains(select_cols))
-        nr_inst <- .postprocess(nr_inst, x$instrument_prefix[[1L]], verbose)
+        nr_inst <- .postprocess(nr_inst, x[["instrument_prefix"]][[1L]], verbose)
         attr(nr_inst, "redcap_instrument") <- x[["instrument_prefix"]]
         nr_inst
       })
     )
   }
 
-  inst_info <- lookup[lookup$instrument_name == inst_name, ]
+  inst_info <- lookup[lookup[["instrument_name"]] == inst_name, ]
   inst_pref <- inst_info[["instrument_prefix"]]
 
-  select_cols <- c(redcap_cols, inst_info$fields[[1L]])
+  select_cols <- c(redcap_cols, inst_info[["fields"]][[1L]])
   inst <- dplyr::select(inst, c(redcap_cols, tidyselect::contains(select_cols)))
   attr(inst, "redcap_instrument") <- inst_pref
 

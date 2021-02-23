@@ -17,7 +17,7 @@ get_report <- function(rep_id,
   # a warning that isn't relevant. I think it's something on REDcapR's end.
   user_info <-
     suppressWarnings(
-      REDCapR::redcap_users_export(redcap_uri, redcap_token)$data_user
+      REDCapR::redcap_users_export(redcap_uri, redcap_token)[["data_user"]]
     )
 
   # Extract Data Export privilege for specified username

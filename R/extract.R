@@ -41,6 +41,7 @@ extract_completes <- function(report_data, record_id_col = "record_id") {
 #'
 #' @return A dataframe with all of the "info" data from each instrument
 #' @export
+#' @importFrom rlang `!!` `!!!`
 extract_info <- function(report_data,
                          lookup = anrlab_instruments,
                          make_uid = T,
@@ -69,7 +70,7 @@ extract_info <- function(report_data,
     dplyr::filter(!is.na(!!dplyr::sym(filter_by)), !!dplyr::sym(filter_by) != "")
 
 
-  if (NA %in% output$date) {
+  if (NA %in% output[["date"]]) {
     warning("There are missing dates, please verify dates are entered in redcap.")
   }
 
@@ -84,7 +85,7 @@ extract_info <- function(report_data,
       .before = 1
     )
   }
-  if (is.character(output$age)) {
+  if (is.character(output[["age"]])) {
     output <- dplyr::mutate(output,
       age = as.numeric(age),
       tsonset = as.numeric(age),

@@ -30,6 +30,3 @@ format. Instrument data can be accessed through $ notation such as
 output$nnb to get the data from the Northwestern Naming Battery. The name
 of each dataframe is set to be the instrument prefix to keep things short.
 }
-\examples{
-#TODO
-}

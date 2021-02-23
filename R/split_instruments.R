@@ -40,7 +40,7 @@ split_instruments <- function(report_data,
   # Extract names stored in the attribute of each instrument data frame
   inst_names <- vapply(
     inst_data_list,
-    FUN = function(x) attributes(x)$redcap_instrument,
+    FUN = function(x) attributes(x)[["redcap_instrument"]],
     FUN.VALUE = 'character'
   )
 

@@ -21,6 +21,3 @@ maintainers should run this and update that object whenever changes are made
 to instruments or new instruments are added. This shouldn't happen frequently
 once a project is moved to production mode.
 }
-\examples{
-#TODO
-}

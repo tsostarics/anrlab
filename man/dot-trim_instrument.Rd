@@ -29,6 +29,3 @@ Helper for split_instruments, actually does all of the hard work of paring
 down each instrument's data and passing it off to the pre and post
 processer helpers.
 }
-\examples{
-#TODO
-}

@@ -20,6 +20,3 @@ Renames columns and applies labels as needed to make the data easier to read.
 This is not called automatically like .preprocess() and .postprocess(), and
 so is done on an as-needed basis.
 }
-\examples{
-# TODO
-}
