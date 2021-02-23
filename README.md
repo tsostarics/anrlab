@@ -3,9 +3,9 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tsostarics/anrlab/workflows/R-CMD-check/badge.svg)](https://github.com/tsostarics/anrlab/actions)
-=======
 [![CodeFactor](https://www.codefactor.io/repository/github/tsostarics/anrlab/badge/master)](https://www.codefactor.io/repository/github/tsostarics/anrlab/overview/master)
 <!-- badges: end -->
+=======
 
 The goal of `anrlab` is to provide utilities for lab members to work with data 
 from our database. We utilize Redcap, which makes data entry simple, but data 
