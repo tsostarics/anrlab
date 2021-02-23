@@ -13,9 +13,6 @@
 #' @param ... Other options for pivot_longer()
 #'
 #' @return A pivoted instrument
-#'
-#' @examples
-#' # TODO
 .pivot_instrument <- function(instrument,
                               instrument_prefix,
                               instrument_regex = "_(.+)_(.+)_(.+)$",

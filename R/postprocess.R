@@ -27,7 +27,7 @@
 
   # Compose a function call of the form .postprocess_[prefix]()
   # this may need to come after the type conversion? maybe not though
-  # TODO: actually implement this for the non repeatable instruments
+  # need to actually implement this for the non repeatable instruments
   # fx_name <- paste0('.preprocess_',inst_prefix)
   # if(methods::existsFunction(fx_name)){
   #   inst_data <- do.call(fx_name, args = list(inst_data))
