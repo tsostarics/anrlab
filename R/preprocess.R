@@ -15,8 +15,6 @@
 #' @return A smaller dataframe with some columns renamed depending on the
 #' instrument provided
 #'
-#' @examples
-#' # TODO
 .preprocess <- function(inst_data, inst_prefix, inst_name) {
   # Compose a function call of the form .preprocess_[prefix]()
   fx_name <- paste0(".preprocess_", inst_prefix)
@@ -174,22 +172,38 @@
       last_num <- stringr::str_extract(column, ".$")
       if (grepl("args_", column))
         dplyr::case_when(
-          last_num == "1" ~ gsub("___.$", "_x", column),
-          last_num == "2" ~ gsub("___.$", "_V", column),
-          last_num == "3" ~ gsub("___.$", "_y", column),
-          last_num == "4" ~ gsub("___.$", "_z", column),
+          last_num == "1" ~ gsub("args___.$", "x", column),
+          last_num == "2" ~ gsub("args___.$", "V", column),
+          last_num == "3" ~ gsub("args___.$", "y", column),
+          last_num == "4" ~ gsub("args___.$", "z", column),
         )
       else
         dplyr::case_when(
-          last_num == "1" ~ gsub("___.$", "_A", column),
-          last_num == "2" ~ gsub("___.$", "_W", column)
+          last_num == "1" ~ gsub("aw___.$", "A", column),
+          last_num == "2" ~ gsub("aw___.$", "W", column)
         )
     }
     else{
       column
     }
   }
+
   # Rename checkbox columns
   colnames(inst_data) <- sapply(new_cols, rename_checkboxes, USE.NAMES = F)
+  inst_data
+}
+
+.preprocess_asha <- function(inst_data) {
+  inst_data <-
+    mutate(inst_data,
+           asha_sources_1_choice___1 = ifelse(asha_sources_1_choice___1 == 1, "Family", NA),
+           asha_sources_1_choice___2 = ifelse(asha_sources_1_choice___2 == 1, "Staff", NA),
+           asha_sources_1_choice = paste0(asha_sources_1_choice___1, asha_sources_1_choice___2),
+           asha_sources_1_choice = ifelse(asha_sources_1_choice == "FamilyStaff", "Both", asha_sources_1_choice)
+    )
+
+  inst_data[['asha_sources_1_choice___1']] <- NULL
+  inst_data[['asha_sources_1_choice___2']] <- NULL
+
   inst_data
 }

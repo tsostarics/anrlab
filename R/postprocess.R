@@ -13,7 +13,6 @@
 #' #TODO
 .postprocess <- function(inst_data, inst_prefix, verbose = T) {
   # Common .postprocessing that should be done on all instruments
-
   # Change item number and accuracy scores to integers
   if ("number" %in% colnames(inst_data)) {
     inst_data$number <- as.integer(inst_data$number)
