@@ -4,6 +4,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tsostarics/anrlab/workflows/R-CMD-check/badge.svg)](https://github.com/tsostarics/anrlab/actions)
 [![CodeFactor](https://www.codefactor.io/repository/github/tsostarics/anrlab/badge/master)](https://www.codefactor.io/repository/github/tsostarics/anrlab/overview/master)
+[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 =======
 
