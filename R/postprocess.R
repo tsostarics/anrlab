@@ -28,10 +28,10 @@
   # Compose a function call of the form .postprocess_[prefix]()
   # this may need to come after the type conversion? maybe not though
   # need to actually implement this for the non repeatable instruments
-  # fx_name <- paste0('.preprocess_',inst_prefix)
-  # if(methods::existsFunction(fx_name)){
-  #   inst_data <- do.call(fx_name, args = list(inst_data))
-  # }
+  fx_name <- paste0('.postprocess_',inst_prefix)
+  if(methods::existsFunction(fx_name)){
+    inst_data <- do.call(fx_name, args = list(inst_data))
+  }
 
   # Turns out readr CAN operate on existing data with type_convert so it can
   # generalize a whole lot better than hard coding everything
@@ -48,12 +48,25 @@
 
 .postprocess_demo <- function(inst_data) {
   # rename checkboxes
+  inst_data
 }
 
 .postprocess_med <- function(inst_data) {
   # rename checkboxes
+  inst_data
 }
 
 .postprocess_nat <- function(inst_data) {
   dplyr::select(inst_data, -subtest)
+}
+
+
+.postprocess_hand <- function(inst_data) {
+  dplyr::transmute(inst_data,
+                   record_id,
+                   redcap_repeat_instrument,
+                   redcap_repeat_instance,
+                   number,
+                   left = as.numeric(choice1) + as.numeric(choice2),
+                   right = as.numeric(choice3) + as.numeric(choice4))
 }

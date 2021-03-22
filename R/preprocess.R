@@ -205,3 +205,12 @@
 
   inst_data
 }
+
+.preprocess_hand <- function(inst_data) {
+  # Processing the checkbox matrix at the end of the form
+  # honestly i dont know why people would want this itemized..
+
+  names(inst_data) <- gsub("___","",names(inst_data))
+
+  inst_data
+}
