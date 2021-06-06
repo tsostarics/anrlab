@@ -14,9 +14,9 @@
 #' @return List of dataframes, named according to instrument prefix
 #' @export
 split_instruments <- function(report_data,
-                              lookup = anrlab_instruments,
+                              lookup = anrlab::anrlab_instruments,
                               record_id_col = "record_id",
-                              verbose = T) {
+                              verbose = FALSE) {
 
   # Throw error if the repeat instrument isn't in the provided data
   if (!"redcap_repeat_instrument" %in% colnames(report_data)) {

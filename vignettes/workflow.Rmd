@@ -1,0 +1,284 @@
+---
+title: "workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# ANRLab redcap data workflow
+
+This vignette showcases the workflow for working with exported data from our
+database. We will be using a CSV export of the entire database as raw data,
+not labels. 
+
+```{r setup, message=FALSE}
+library(anrlab) # For processing our data
+library(tidyverse) # For additional functionality
+```
+
+## Reading in data
+We start by loading our downloaded data using the `load_redcap_csv` function.
+This is equivalent to `readr::read_csv` but has some additional preproccessing
+steps. If we investigate this data, we can tell that it's extremely wide and
+unusable.
+
+```{r, message = FALSE}
+report <- load_redcap_csv("testdata.csv")
+report
+```
+
+We'll be using the `split_instruments` function to accomplish 2 goals:
+ 
+ - Split the up into individual instruments' data
+ - Put that data in a usable format
+ 
+ In more technical terms we're basically splitting up the data into a relational
+ database, so I'll be referring to this as `report_db` to differentiate it from
+ `db`.
+
+```{r}
+report_db <- split_instruments(report, verbose = FALSE)
+```
+
+## Working with lists
+
+If we look at the class of each object we'll see they're quite different, although
+the type of each object is the same.
+
+```{r}
+class(report)
+class(report_db)
+typeof(report)
+typeof(report_db)
+```
+
+In particular, `report` is a dataframe while `report_db` is a list. With dataframes
+you may already know that you can access a single column with `$` using `df$columname`.
+With R, dataframes are really just lists that can be treated as tabular. Each
+entry of a list in a dataframe corresponds to a column with a name and some vector
+of data. So when you do `df$columnname` what you're really doing is accessing a named
+entry within a list, like `list$entryname`.
+
+However, not all lists are dataframes, and the data within each entry
+can actually be something more complex than a series of numbers. In particular,
+we can have a *list of dataframes*, which is what our `report_db` object is. In
+this case, each entry of our list has a name, and for our purposes those names
+happen to be a shortened name of each instrument.
+
+```{r}
+names(report_db)[10:20] # Show just a few
+```
+
+This means that if we want to access just the data for the NAVS, we can use
+the same syntax we would use if we had a particular column in a dataframe we wanted
+to access.
+
+```{r}
+report_db$navs # Returns the navs dataframe
+```
+
+## Structure of data
+
+The original structure in the `report` object has each variable (eg item) in a single
+column. While this may be in so-called tidy format, it's actually very hard
+to work with for statistical purposes. As mentioned earlier, the `split_instruments`
+function puts things in a usable format. Looking at the `report_db$navs` output
+above, we see much fewer columns and way more rows.
+
+The precise columns vary on the test and the tasks, but there are some common
+practices. Each language assessment instrument has the following columns:
+
+ - `record_id`: the record ID that redcap generates. This is different from
+ the patient ID we use, but will serve as the key that connects all of this
+ person's information.
+ - `redcap_repeat_instrument`: the instrument/assessment
+ - `redcap_repeat_instance`: The redcap instance number for keeping track
+ of taking this assessment multiple times
+ - `number`: the item number *for this subtest*
+
+Most assessment instruments also typically have the following, but not always
+depending on the structure:
+
+ - `subtest`: the subtest for this particular trial/row. If there is a practice
+ item then the subtest will be prepended with `p` (eg `vnt` vs `pvnt`)
+ - `resp`: text responses (when applicable)
+ - `acc`: accuracy measures (when applicable), always 0 for incorrect and 1 for
+ correct
+ - `type`: item type for aggregating across subtests. For example, verbs, nouns
+ ob1, op2, fruits, places, practice, etc. These are always character values and
+ their meaning varies by instrument.
+
+One last thing to point out is that you will likely see many `NA`s. This isn't
+necessarily an issue of missing data. This is more of a design choice where
+all the data for an instrument is kept together, leading to a list of dataframes,
+rather than having a list of lists of dataframes, where we'd have a more complex
+nested structure but with the subtests split up. So, in the `report_db$navs` example
+from before, all the `NA`s in the preview we saw were because the `vnt` subtest
+has a correct/incorrect question, but doesn't have the "circle x V y etc" task
+from later in the assessment. We can investigate just that task through filtering:
+
+```{r}
+report_db$navs %>% 
+  filter(subtest == "aspt")
+```
+
+For the `aspt` subtest, there's no response transcription or singular accuracy
+measure, but the other columns now have values. One thing to note for this specific
+example is that each item in this subtest is different, so not all the items
+have a y or z value, hence the NAs. It's important to keep in mind when NAs
+occur and why they're occurring to know whether it's actually a case of missing
+data or not.
+
+## Summary scores
+
+You might be saying that you don't actually want all the itemized information,
+you just want the aggregated scores from the test. This might be especially
+the case for something like the Western Aphasia Battery (WAB) where you just
+want the aphasia quotient value. It would seem like a huge pain to need to do
+all the aggregation and calculations in R for that. Thankfully, all of that is
+handled on the database side and is available in the exported data so long
+as you selected the instrument in your data report export (reminder I'm using
+an export of the *entire* database).
+
+All final summary scores instruments end in `sum` with the exception of the NNB
+test. The NNB has both an `nnbsum` and an `nnbsbtl` with additional subtest
+level scores if needed (there are a lot of them in this test). So, if we want
+the aphasia quotient values, we can get that easily.
+
+```{r}
+report_db$wabsum
+```
+
+And clearly they're in the `aq` column.
+
+## Demographic and Meta data
+
+The instrument and summary score dataframes only have the item level responses
+and aggregate calculations respectively for every person with data. But, we 
+probably also need their ages and time since onset. This requires their birth
+date, date of onset, and the date of the task. The participant info is kept
+in the `report_db$demo` dataframe, but the date of the task would still be in
+the `report` dataframe (remember this is in an unusable format). Thankfully we
+have another function that can extract that data. 
+
+On our redcap database, all of the task metadata is recorded in a standardize
+"Info Block" of questions at the top of every instrument. The `extract_info`
+function will pull out all of that information into a usable format. Note
+that a warning will be displayed if there are missing dates, which suggests
+you should go back and enter that on redcap. We'll ignore that for now though.
+
+```{r, warning=FALSE}
+report_info <- extract_info(report)
+report_info %>% filter(instrument_prefix == 'wabsum')
+```
+
+Here we have a lot of information, and what we're probably most interested in
+is the `age` and `tsonset` columns. Redcap automatically calculates these values
+so long as the requisite patient information and task date is entered into the
+demographic info and assessment instruments respectively. Notice that there is
+also a `record_id` and `redcap_repeat_instrument` column just like in the
+instruments we were looking at. This lets us cross reference the values across
+different objects and compile the information we want to run statistics on.
+
+### Completed data
+
+Redcap also automatically adds information about whether an instrument has been
+completed or not. This information can be used if you're interested in only
+the records that, say, have fully completed wab scores. The key is as follows:
+
+ - 0: Incomplete (red bubble on redcap)
+ - 1: Unverified (yellow bubble)
+ - 2: Completed (green bubble)
+
+```{r}
+report_completes <- extract_completes(report)
+report_completes
+```
+
+If a participant has no data for a form (gray bubble) then they simply don't
+appear in this dataframe.
+
+## Querying and Wrangling
+
+Currently we have *all* the data in our database. One thing we may be interested
+in is looking at a subset of this data. Say, only the C1 participants at baseline.
+Doing this filtering is extremely difficult with `report` and an iterative annoyance
+at best with `report_db`. However, recall that that information is held in the
+info block for each instrument, which is located in the `report_info` dataframe.
+So, we can use this smaller dataframe to pick out the subset of information we
+want from `report_db`. Remember we conceptually have a relational database at
+our disposal and we can make use of the `report_id` column as the common key
+that connects things together by participant.
+
+```{r}
+# Get only C1 at baseline data
+report_filter <-
+  report_info %>%
+  dplyr::filter(study == 'C1',
+         timepoint == 'Baseline')
+report_filter
+```
+
+Here we see that we're only concerned with `r nrow(report_filter)` rows of data 
+across only `r length(unique(report_filter$instrument_prefix))` instruments!
+We can then use the `query_subjects` function on this filter we've specified
+to get a subset of `report_db`. While doing this, we can also join in information
+from the `report_filter` dataframe we made, such as age and time since onset,
+while ignoring things like who entered the data or administered the test.
+
+```{r}
+subset_db <- query_subjects(report_db, # Our list of dataframes
+                              report_filter, # The query we set up
+                              join_info = T, # Add in info columns
+                              limit_cols = T, # Don't include ALL info columns..
+                              include_cols = c('age','tsonset')) # ..only these
+length(report_db)
+length(subset_db)
+names(subset_db)
+```
+
+Now we have a new `subset_db` object that's used in exactly the same way as
+`report_db`, but there's a lot less data to work with since we filtered out
+everything we didn't want. We can compare the wabsum dataframes and see
+that our subset data has only the one participant we're interested in and
+has added in the age and time since onset information that wasn't in the
+original `report_db`.
+
+```{r}
+subset_db$wabsum
+report_db$wabsum
+```
+
+# Example
+Here's a very simple example of how we can go from the raw data export to
+a simple plot of participant performance on different subtests quickly. Notice
+that most of the code here is in making the plot.
+
+```{r, warning=FALSE, message = FALSE}
+report <- load_redcap_csv("testdata.csv")
+report_db <- split_instruments(report, verbose = FALSE)
+
+report_db$nnb %>% # Get NNB data
+  left_join(select(report_db$demo, # Add in aphasia group from demographics
+                   record_id, 
+                   group), 
+            by = "record_id") %>%  
+  mutate(group = ifelse(group == 3, "PPA", "STR")) %>% # Change labels
+  ggplot(aes(x = record_id, y = acc, fill = group)) +
+  stat_summary(fun = "mean",
+               geom = "bar") + # Plot proportion correct
+  stat_summary(fun.data = "mean_se",
+               geom  = "errorbar",
+               width = .4) + # Add error bars
+  facet_wrap(~subtest) # Facet by subtest
+```
+

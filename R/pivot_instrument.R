@@ -19,8 +19,9 @@
                               output_names = c("subtest", "number", ".value"),
                               ...) {
   inst_pattern <- paste0(instrument_prefix, instrument_regex)
-  instrument <- instrument %>%
+  instrument <-
     tidyr::pivot_longer(
+      instrument,
       cols = tidyselect::matches(inst_pattern),
       names_to = output_names,
       names_pattern = inst_pattern,

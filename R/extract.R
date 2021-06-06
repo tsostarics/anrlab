@@ -41,8 +41,8 @@ extract_completes <- function(report_data, record_id_col = "record_id") {
 #' @export
 #' @importFrom rlang `!!` `!!!`
 extract_info <- function(report_data,
-                         lookup = anrlab_instruments,
-                         make_uid = T,
+                         lookup = anrlab::anrlab_instruments,
+                         make_uid = TRUE,
                          record_id_col = "record_id",
                          filter_by = "user") {
   # get only the record id, instance number, and info columns
@@ -65,7 +65,7 @@ extract_info <- function(report_data,
       names_to = c("instrument_prefix", ".value"),
       names_pattern = "(.+)_(.+)$"
     ) %>%
-    dplyr::filter(!is.na(!!dplyr::sym(filter_by)), !!dplyr::sym(filter_by) != "")
+    dplyr::filter(!is.na(user) | !is.na(age) | !is.na(date))
 
 
   if (NA %in% output[["date"]]) {

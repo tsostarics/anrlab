@@ -20,6 +20,3 @@ Extract the completion status for each participant and each instrument in
 the given raw report data. This isn't terribly useful, but could be helpful
 when trying to exclude any data entry that isn't finished.
 }
-\examples{
-# TODO
-}

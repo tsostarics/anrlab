@@ -6,9 +6,9 @@
 \usage{
 split_instruments(
   report_data,
-  lookup = anrlab_instruments,
+  lookup = anrlab::anrlab_instruments,
   record_id_col = "record_id",
-  verbose = T
+  verbose = FALSE
 )
 }
 \arguments{

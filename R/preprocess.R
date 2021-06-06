@@ -191,15 +191,24 @@
 
   # Rename checkbox columns
   colnames(inst_data) <- vapply(new_cols, rename_checkboxes, "char")
-  inst_data
+
+  # Remove dropdown menu responses (they're exported as the integer values and not the character labels)
+  dplyr::select(inst_data, -tidyselect::matches("vct_\\d+_resp"))
 }
 
 .preprocess_asha <- function(inst_data) {
   # Procesing the checkbox at the end of the form
-  inst_data[["asha_sources_1_choice___1"]] <- ifelse(inst_data[["asha_sources_1_choice___1"]] == 1, "Family", NA)
-  inst_data[["asha_sources_1_choice___2"]] <- ifelse(inst_data[["asha_sources_1_choice___2"]] == 1, "Staff", NA)
-  inst_data[["asha_sources_1_choice"]] <- paste0(inst_data[["asha_sources_1_choice___1"]], inst_data[["asha_sources_1_choice___2"]])
-  inst_data[["asha_sources_1_choice"]] <- ifelse(inst_data[["asha_sources_1_choice"]] == "FamilyStaff", "Both", inst_data[["asha_sources_1_choice"]])
+  inst_data[["asha_scources_1_choice"]] <- dplyr::case_when(
+    inst_data[["asha_sources_1_choice___1"]] == 1 & inst_data[["asha_sources_1_choice___2"]] == 1 ~ 3, # Both
+    inst_data[["asha_sources_1_choice___1"]] == 1 ~ 1, # Family only
+    inst_data[["asha_sources_1_choice___2"]] == 1 ~ 2, # Staff only
+    TRUE ~ 0 # Neither
+  )
+
+  # inst_data[["asha_sources_1_choice___1"]] <- ifelse(inst_data[["asha_sources_1_choice___1"]] == 1, "Family", NA)
+  # inst_data[["asha_sources_1_choice___2"]] <- ifelse(inst_data[["asha_sources_1_choice___2"]] == 1, "Staff", NA)
+  # inst_data[["asha_sources_1_choice"]] <- paste0(inst_data[["asha_sources_1_choice___1"]], inst_data[["asha_sources_1_choice___2"]])
+  # inst_data[["asha_sources_1_choice"]] <- ifelse(inst_data[["asha_sources_1_choice"]] == "FamilyStaff", "Both", inst_data[["asha_sources_1_choice"]])
   inst_data[["asha_sources_1_choice___1"]] <- NULL
   inst_data[["asha_sources_1_choice___2"]] <- NULL
 

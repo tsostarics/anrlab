@@ -36,4 +36,7 @@ Depends:
 Suggests: 
     REDCapR,
     RSQLite,
-    readxl
+    readxl,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

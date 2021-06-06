@@ -6,8 +6,8 @@
 \usage{
 extract_info(
   report_data,
-  lookup = anrlab_instruments,
-  make_uid = T,
+  lookup = anrlab::anrlab_instruments,
+  make_uid = TRUE,
   record_id_col = "record_id",
   filter_by = "user"
 )
