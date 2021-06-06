@@ -38,5 +38,6 @@ Suggests:
     RSQLite,
     readxl,
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 VignetteBuilder: knitr

@@ -22,18 +22,20 @@ not labels.
 
 ```{r setup, message=FALSE}
 library(anrlab) # For processing our data
-library(tidyverse) # For additional functionality
+library(dplyr) # For additional functionality
+library(ggplot2)
 ```
 
 ## Reading in data
 We start by loading our downloaded data using the `load_redcap_csv` function.
 This is equivalent to `readr::read_csv` but has some additional preproccessing
 steps. If we investigate this data, we can tell that it's extremely wide and
-unusable.
+unusable. I've included this as part of the anrlab package's data to use
+for these examples.
 
 ```{r, message = FALSE}
-report <- load_redcap_csv("testdata.csv")
-report
+# report <- load_redcap_csv("testdata.csv")
+report <- anrlab::test_data
 ```
 
 We'll be using the `split_instruments` function to accomplish 2 goals:
@@ -264,7 +266,7 @@ a simple plot of participant performance on different subtests quickly. Notice
 that most of the code here is in making the plot.
 
 ```{r, warning=FALSE, message = FALSE}
-report <- load_redcap_csv("testdata.csv")
+report <- anrlab::test_data
 report_db <- split_instruments(report, verbose = FALSE)
 
 report_db$nnb %>% # Get NNB data
