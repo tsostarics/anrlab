@@ -39,5 +39,6 @@ Suggests:
     readxl,
     knitr,
     rmarkdown,
-    ggplot2
+    ggplot2,
+    markdown
 VignetteBuilder: knitr
