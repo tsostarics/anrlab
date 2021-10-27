@@ -54,25 +54,23 @@ get_report <- function(rep_id,
 
 #' Get Repeating Instruments
 #'
-#' Returns a dataframe with all the repeating instrument names and their
-#' event labels. Used when generating a new lookup table.
+#' Returns a vector with all the repeating instrument names.
+#' Used when generating a new lookup table.
 #'
 #' @param redcap_uri Redcap user API URI
 #' @param redcap_token Redcap user API token
 #'
-#' @return A dataframe with repeating instrument information.
+#' @return A vector with repeating instrument names
 #' @export
 #'
 get_repeating <- function(redcap_uri, redcap_token) {
-  tibble::as_tibble(
-    RcppSimdJson::fparse(
-      RCurl::postForm(
-        uri = redcap_uri,
-        token = redcap_token,
-        content = "repeatingFormsEvents",
-        format = "json",
-        returnFormat = "json"
-      )
-    )
-  )
+  httr::POST(
+    url = redcap_uri,body = list(
+      token = redcap_token,
+      content = "repeatingFormsEvents",
+      format = "json",
+      returnFormat = "json"), encode = "form"
+  ) |>
+    httr::content() |>
+    vapply(function(x) x[['form_name']], "Char")
 }

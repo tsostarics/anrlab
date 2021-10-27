@@ -48,7 +48,7 @@
 
 .postprocess_demo <- function(inst_data) {
   # rename checkboxes
-  inst_data
+  dplyr::select(inst_data, -starts_with("redcap"))
 }
 
 .postprocess_med <- function(inst_data) {
