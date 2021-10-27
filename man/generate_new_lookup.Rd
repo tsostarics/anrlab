@@ -4,12 +4,14 @@
 \alias{generate_new_lookup}
 \title{Generate Instrument Name-Prefix Lookup Table}
 \usage{
-generate_new_lookup(redcap_uri, redcap_token)
+generate_new_lookup(redcap_uri, redcap_token, overwrite = FALSE)
 }
 \arguments{
 \item{redcap_uri}{Redcap user API URI}
 
 \item{redcap_token}{Redcap user API token}
+
+\item{overwrite}{Whether to overwrite the lookup table in the package already, defaults to FALSE}
 }
 \value{
 A dataframe with all the instrument names and their prefixes

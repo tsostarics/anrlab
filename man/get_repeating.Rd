@@ -12,9 +12,9 @@ get_repeating(redcap_uri, redcap_token)
 \item{redcap_token}{Redcap user API token}
 }
 \value{
-A dataframe with repeating instrument information.
+A vector with repeating instrument names
 }
 \description{
-Returns a dataframe with all the repeating instrument names and their
-event labels. Used when generating a new lookup table.
+Returns a vector with all the repeating instrument names.
+Used when generating a new lookup table.
 }
