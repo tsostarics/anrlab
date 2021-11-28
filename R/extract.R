@@ -72,7 +72,9 @@ extract_info <- function(report_data,
     warning("There are missing dates, please verify dates are entered in redcap.")
   }
 
-  output <- dplyr::inner_join(output, lookup, by = "instrument_prefix")
+  output <- dplyr::inner_join(output,
+                              lookup[,c('instrument_name','instrument_prefix')],
+                              by = "instrument_prefix")
   if (make_uid) {
     output <- dplyr::mutate(output,
                             uid = paste(!!as.name(record_id_col),
@@ -83,12 +85,14 @@ extract_info <- function(report_data,
                             .before = 1
     )
   }
-  if (is.character(output[["age"]])) {
-    output <- dplyr::mutate(output,
-                            age = as.numeric(age),
-                            tsonset = as.numeric(age),
-                            date = as.Date(date)
-    )
+  if ('age' %in% colnames(output)) {
+    if (is.character(output[["age"]])) {
+      output <- dplyr::mutate(output,
+                              age = as.numeric(age),
+                              tsonset = as.numeric(age),
+                              date = as.Date(date)
+      )
+    }
   }
 
   dplyr::rename(output, redcap_repeat_instrument = instrument_name)
