@@ -8,7 +8,7 @@
   inst,
   lookup = anrlab_instruments,
   record_id_col = "record_id",
-  verbose = T
+  verbose = TRUE
 )
 }
 \arguments{

@@ -27,8 +27,8 @@ split_instruments <- function(report_data,
   }
 
   # Group by instrument, split, then trim each instrument
-  report_data <- dplyr::group_by(report_data, redcap_repeat_instrument)
-  inst_data_list <- dplyr::group_split(report_data)
+  # Note that base::split can't be used here because it will drop the non repeating instruments
+  inst_data_list <- dplyr::group_split(dplyr::group_by(report_data, redcap_repeat_instrument))
   inst_data_list <-
     rlang::squash(
       purrr::map(

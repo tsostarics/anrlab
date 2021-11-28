@@ -40,5 +40,7 @@ Suggests:
     knitr,
     rmarkdown,
     ggplot2,
-    markdown
+    markdown,
+    httr,
+    usethis
 VignetteBuilder: knitr
