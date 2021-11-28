@@ -38,7 +38,7 @@
   if (verbose) {
     readr::type_convert(inst_data)
   } else {
-    suppressMessages(readr::type_convert(inst_data))
+    suppressWarnings(suppressMessages(readr::type_convert(inst_data)))
   }
 }
 
