@@ -16,8 +16,8 @@ extract_completes <- function(report_data, record_id_col = "record_id") {
 
   dplyr::filter(
     tidyr::pivot_longer(complete_vars,
-      cols = tidyselect::contains("_complete"),
-      names_to = "instrument_complete"
+                        cols = tidyselect::contains("_complete"),
+                        names_to = "instrument_complete"
     ),
     !is.na(value)
   )
@@ -59,13 +59,13 @@ extract_info <- function(report_data,
   # that's only computed when that instrument is added to a record
   pivot_cols <- info_cols[grep(info_regex, info_cols, invert = T)]
   output <-
-    info_vars %>%
     tidyr::pivot_longer(
+      info_vars,
       cols = tidyselect::all_of(pivot_cols),
       names_to = c("instrument_prefix", ".value"),
       names_pattern = "(.+)_(.+)$"
-    ) %>%
-    dplyr::filter(!is.na(user) | !is.na(age) | !is.na(date))
+    )
+  output <- output[.has_info_in_record(output, pivot_cols),]
 
 
   if (NA %in% output[["date"]]) {
@@ -75,21 +75,47 @@ extract_info <- function(report_data,
   output <- dplyr::inner_join(output, lookup, by = "instrument_prefix")
   if (make_uid) {
     output <- dplyr::mutate(output,
-      uid = paste(!!as.name(record_id_col),
-        redcap_repeat_instance,
-        instrument_prefix,
-        sep = "_"
-      ),
-      .before = 1
+                            uid = paste(!!as.name(record_id_col),
+                                        redcap_repeat_instance,
+                                        instrument_prefix,
+                                        sep = "_"
+                            ),
+                            .before = 1
     )
   }
   if (is.character(output[["age"]])) {
     output <- dplyr::mutate(output,
-      age = as.numeric(age),
-      tsonset = as.numeric(age),
-      date = as.Date(date)
+                            age = as.numeric(age),
+                            tsonset = as.numeric(age),
+                            date = as.Date(date)
     )
   }
 
   dplyr::rename(output, redcap_repeat_instrument = instrument_name)
+}
+
+#' Check if record contains any info variables
+#'
+#' Given a dataframe that was pivoted using info variables stored in pivot_cols,
+#' return only the rows that have at least 1 info variable filled out. Essentially,
+#' check each row and return TRUE if any info column is not NA. This is necessary
+#' because not all info variables will be included in every report.
+#'
+#' @param record_df Pivoted dataframe with extracted info variables
+#' @param pivot_cols Which info columns the df was pivoted by
+#'
+#' @return Logical vector of which rows to keep
+.has_info_in_record <- function(record_df, pivot_cols) {
+  included_vars <- unique(gsub("^[^_]+_", "", pivot_cols))
+
+  vapply(seq_len(nrow(record_df)),
+         function(row_idx)
+           any(
+             vapply(included_vars,
+                    function(col_idx)
+                      !is.na(record_df[[row_idx,col_idx]]),
+                    TRUE)
+           ),
+         TRUE
+  )
 }
