@@ -64,6 +64,7 @@ get_report <- function(rep_id,
 #' @export
 #'
 get_repeating <- function(redcap_uri, redcap_token) {
+  requireNamespace("httr", quietly = TRUE)
   httr::POST(
     url = redcap_uri,body = list(
       token = redcap_token,

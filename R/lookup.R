@@ -14,6 +14,8 @@
 #' @return A dataframe with all the instrument names and their prefixes
 #' @export
 generate_new_lookup <- function(redcap_uri, redcap_token, overwrite=FALSE) {
+  requireNamespace("usethis", quietly = TRUE)
+
   # Get data dictionary
   anrlab_instruments <-
     dplyr::select(
