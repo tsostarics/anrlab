@@ -39,7 +39,7 @@
   inst_pref <- inst_info[["instrument_prefix"]]
 
   select_cols <- c(redcap_cols, inst_info[["fields"]][[1L]])
-  inst <- dplyr::select(inst, c(redcap_cols, tidyselect::contains(select_cols)))
+  inst <- dplyr::select(inst, tidyselect::contains(select_cols))
   attr(inst, "redcap_instrument") <- inst_pref
 
   # Revisit this later and find a nicer way to incorporate the consent forms
