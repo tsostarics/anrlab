@@ -12,7 +12,7 @@ export_to_excel(instrument_db, filepath)
 \item{filepath}{Filepath for a new .xlsx file. Must be .xlsx.}
 }
 \value{
-
+Returns nothing, saves an excel workbook
 }
 \description{
 Export a list of instruments (the output of \code{split_instruments} or

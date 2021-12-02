@@ -3,6 +3,7 @@
 export("%>%")
 export(add_from_demographics)
 export(export_sqlite)
+export(export_to_excel)
 export(extract_completes)
 export(extract_info)
 export(generate_new_lookup)

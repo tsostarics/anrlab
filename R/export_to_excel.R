@@ -11,7 +11,8 @@
 #' @param instrument_db List of instruments
 #' @param filepath Filepath for a new .xlsx file. Must be .xlsx.
 #'
-#' @return
+#' @return Returns nothing, saves an excel workbook
+#' @export
 export_to_excel <- function(instrument_db, filepath) {
   if (!grepl("\\.xlsx$", filepath))
     stop("Filepath must end in .xlsx")
