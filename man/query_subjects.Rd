@@ -7,8 +7,8 @@
 query_subjects(
   instrument_db,
   filter_specification,
-  join_info = T,
-  limit_cols = F,
+  join_info = TRUE,
+  limit_cols = FALSE,
   include_cols = NA,
   record_id_col = "record_id"
 )

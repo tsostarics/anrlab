@@ -23,8 +23,8 @@
 #' @export
 query_subjects <- function(instrument_db,
                            filter_specification,
-                           join_info = T,
-                           limit_cols = F,
+                           join_info = TRUE,
+                           limit_cols = FALSE,
                            include_cols = NA,
                            record_id_col = "record_id") {
   if (!"redcap_repeat_instrument" %in% colnames(filter_specification)) {
@@ -69,14 +69,36 @@ query_subjects <- function(instrument_db,
       dplyr::filter(
         filter_specification,
         redcap_repeat_instrument == x
-      )[keep_cols] %>%
+      )[keep_cols] |>
       .verify_datatypes(instrument_db[[y]], key_cols)
 
     dplyr::inner_join(instrument_db[[y]], this_inst, by = key_cols)
   })
 
   # The map results in an unnamed list, so we add the names back in
-  purrr::set_names(output, spec_prefixes)
+  c(purrr::set_names(output, spec_prefixes),
+    .filter_non_repeating(instrument_db, filter_specification))
+}
+
+#' Filter non repeating instruments
+#'
+#' Demographic info, and other instruments which aren't repeating instruments,
+#' aren't filtered in the same procedure as the other instruments since there's
+#' no specification of timepoint or study in them. To remove any records we
+#' don't need, we can filter by which record_ids remain in the filter specification
+#' passed to query_subjects.
+#'
+#' @param instrument_db Unfiltered list of instruments
+#' @param filter_specification Dataframe, the output of extract_info
+#'
+#' @return List of non-repeating instruments with only the records specified in
+#' the filter specification
+.filter_non_repeating <- function(instrument_db, filter_specification) {
+  which_non_repeating <- vapply(instrument_db, \(inst) !'redcap_repeat_instrument' %in% colnames(inst), TRUE)
+  retained_records <- unique(filter_specification[['record_id']])
+
+  lapply(instrument_db[which_non_repeating],
+         \(inst) dplyr::filter(inst, record_id %in% retained_records))
 }
 
 #' Verify datatypes before joining info
