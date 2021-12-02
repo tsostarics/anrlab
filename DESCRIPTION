@@ -42,5 +42,9 @@ Suggests:
     ggplot2,
     markdown,
     httr,
-    usethis
+    usethis,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
+Enhances: 
+    xlsx
