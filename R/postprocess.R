@@ -12,10 +12,10 @@
   # Common .postprocessing that should be done on all instruments
   # Change item number and accuracy scores to integers
   if ("number" %in% colnames(inst_data)) {
-    inst_data$number <- as.integer(inst_data$number)
+    inst_data[["number"]] <- as.integer(inst_data[["number"]])
   }
   if ("acc" %in% colnames(inst_data)) {
-    inst_data$acc <- as.integer(inst_data$acc)
+    inst_data[["acc"]] <- as.integer(inst_data[["acc"]])
   }
 
   # Remove instrument prefix from column names for readability
@@ -47,12 +47,17 @@
 }
 
 .postprocess_demo <- function(inst_data) {
-  # rename checkboxes
-  dplyr::select(inst_data, -starts_with("redcap"))
+  dplyr::select(inst_data, -tidyselect::starts_with("redcap")) |>
+    dplyr::mutate(sex        = dplyr::case_when(sex == 1 ~ 'Male',
+                                                sex == 2 ~ 'Female',
+                                                TRUE ~ 'Other'),
+                  handedness = dplyr::case_when(handedness == 1 ~ 'Left',
+                                                handedness == 2 ~ 'Right',
+                                                TRUE ~ 'Ambidextrous'))
 }
 
 .postprocess_med <- function(inst_data) {
-  # rename checkboxes
+  # TODO: rename checkboxes
   inst_data
 }
 
