@@ -198,12 +198,14 @@
 
 .preprocess_asha <- function(inst_data) {
   # Procesing the checkbox at the end of the form
-  inst_data[["asha_scources_1_choice"]] <- dplyr::case_when(
+  inst_data[["asha_sources_1_choice"]] <- dplyr::case_when(
     inst_data[["asha_sources_1_choice___1"]] == 1 & inst_data[["asha_sources_1_choice___2"]] == 1 ~ 3, # Both
     inst_data[["asha_sources_1_choice___1"]] == 1 ~ 1, # Family only
     inst_data[["asha_sources_1_choice___2"]] == 1 ~ 2, # Staff only
     TRUE ~ 0 # Neither
   )
+
+  inst_data <- dplyr::mutate(inst_data, dplyr::across(tidyselect::ends_with("_choice"), as.numeric))
 
   # inst_data[["asha_sources_1_choice___1"]] <- ifelse(inst_data[["asha_sources_1_choice___1"]] == 1, "Family", NA)
   # inst_data[["asha_sources_1_choice___2"]] <- ifelse(inst_data[["asha_sources_1_choice___2"]] == 1, "Staff", NA)

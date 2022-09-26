@@ -119,8 +119,8 @@ query_subjects <- function(instrument_db,
     type_data <- typeof(inst_data[[col]])
     type_spec <- typeof(filter_spec[[col]])
     if (type_data != type_spec) {
-      filter_spec[col] <- do.call(paste0("as.", type_data),
-        args = list(filter_spec[col])
+      filter_spec[[col]] <- do.call(paste0("as.", type_data),
+        args = list(filter_spec[[col]])
       )
     }
   }
