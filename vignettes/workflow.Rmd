@@ -21,9 +21,9 @@ database. We will be using a CSV export of the entire database as raw data,
 not labels. 
 
 ```{r setup, message=FALSE}
-library(anrlab) # For processing our data
-library(dplyr) # For additional functionality
-library(ggplot2)
+library(anrlab)  # For processing our data
+library(dplyr)   # For additional functionality
+library(ggplot2) # For plotting
 ```
 
 ## Reading in data
